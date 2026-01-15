@@ -1,0 +1,93 @@
+
+// ion-toolbar {
+//   --background: linear-gradient(135deg, #7b5cff, #a084ff);
+//   color: aliceblue;
+// }
+
+// ion-content {
+//   --background: linear-gradient(180deg, #f6f3ff 0%, #ffffff 60%);
+// }
+
+// // Custom class for the date pill look
+// .custom-date-display {
+//   background: #f0f0f0;
+//   color: #7b5cff;
+//   padding: 6px 12px;
+//   border-radius: 8px;
+//   font-weight: 600;
+//   font-size: 0.9rem;
+// }
+
+// ion-item {
+//   --background: #ffffff;
+//   border-radius: 14px;
+//   margin-bottom: 10px; // Adjusted for tighter spacing inside the card
+//   --padding-start: 15px;
+//   --inner-padding-end: 15px;
+
+//   ion-label {
+//     font-weight: 500;
+//     color: #444;
+//   }
+// }
+
+// ion-select {
+//   --placeholder-color: #9a8cff;
+//   --color: #5f4bd8;
+//   font-weight: 500;
+// }
+
+// ion-button {
+//   height: 52px;
+//   font-size: 16px;
+//   font-weight: 600;
+//   border-radius: 14px;
+//   margin-bottom: 16px;
+//   letter-spacing: 0.4px;
+// }
+
+ion-toolbar {
+  --background: linear-gradient(135deg, #7b5cff, #a084ff);
+  color: aliceblue;
+}
+
+ion-content {
+  --background: linear-gradient(180deg, #f6f3ff 0%, #ffffff 60%);
+}
+
+.custom-date-display {
+  background: #f0f0f0;
+  color: #7b5cff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+ion-item {
+  --background: #ffffff;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  --padding-start: 15px;
+  --inner-padding-end: 15px;
+
+  ion-label {
+    font-weight: 500;
+    color: #444;
+  }
+}
+
+ion-select {
+  --placeholder-color: #9a8cff;
+  --color: #5f4bd8;
+  font-weight: 500;
+}
+
+ion-button {
+  height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  letter-spacing: 0.4px;
+}

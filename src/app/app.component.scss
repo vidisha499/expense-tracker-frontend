@@ -1,0 +1,29 @@
+.menu-list {
+  padding: 12px;
+}
+
+.menu-card {
+  margin-bottom: 12px;
+  border-radius: 12px;
+  --background:  #7b5cff ;
+ 
+  --color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+
+  ion-icon {
+    color: var(--ion-color-danger);
+  }
+}
+
+
+.logout-container {
+  padding: 12px;
+  border-top: 1px solid #eee;
+}
+
+.menu-card.logout-item {
+  color: #ffffff;
+  --background: #f93357;
+
+}
+

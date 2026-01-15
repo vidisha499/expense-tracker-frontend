@@ -1,0 +1,149 @@
+.details-content {
+  --background: #f8f9ff; 
+}
+
+.main-container {
+  padding: 20px 16px;
+}
+
+
+
+.info-card {
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin: 0;
+  padding: 10px;
+
+  .detail-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    margin-bottom: 10px;
+
+    .icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    ion-label {
+      margin-left: 15px;
+      p { font-size: 0.85rem; color: #888; margin-bottom: 2px; }
+      h3 { font-size: 1rem; font-weight: 600; color: #333; }
+    }
+  }
+}
+
+.purple-bg { background: #6a11cb; }
+.blue-bg { background: #4895ef; }
+.green-bg { background: #4cc9f0; }
+.orange-bg { background: #f72585; }
+.teal-bg { background: #7209b7; }
+.pink-bg { background: #b5179e; }
+
+.bill-container {
+  margin-top: 25px;
+  .section-label { font-size: 1.1rem; font-weight: 700; color: #444; margin-left: 5px; }
+}
+
+.bill-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px 5px;
+  
+  .bill-card {
+    min-width: 150px;
+    height: 200px;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+}
+
+.summary-header {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .amount-pill {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 30px;
+    border-radius: 25px; // Makes it a pill shape
+    background: white;
+    box-shadow: 0 10px 25px rgba(106, 17, 203, 0.1);
+    min-width: 140px; // Minimum width
+    width: auto;      // Auto-scaling based on content
+    max-width: 90%;   // Prevents it from hitting screen edges
+    border-bottom: 5px solid transparent;
+
+    &.expense-pill { border-bottom-color: #eb445a; }
+    &.income-pill { border-bottom-color: #2dd36f; }
+
+    .pill-content {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+
+      .currency {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #666;
+      }
+
+      .value {
+        font-size: 2.2rem; // Larger text
+        font-weight: 800;
+        color: #222;
+        letter-spacing: -1px;
+      }
+    }
+
+    .pill-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #999;
+      margin-top: 2px;
+    }
+  }
+
+  .transaction-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 15px 0 0;
+    color: #333;
+    letter-spacing: -0.5px;
+  }
+}
+
+.bill-container {
+  margin-top: 20px;
+  padding-bottom: 30px;
+
+  .section-label {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .bill-scroll {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    &::-webkit-scrollbar {
+      display: none; 
+    }
+  }
+}

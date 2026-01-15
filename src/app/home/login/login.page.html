@@ -1,0 +1,59 @@
+<ion-content class="ion-padding custom-background">
+  <div class="login-container">
+    
+    <div class="header-section ion-text-center">
+      <div class="logo-circle">
+        <ion-icon name="wallet-outline" color="danger"></ion-icon>
+      </div>
+      <h1>Welcome Back!</h1>
+      <p>Manage your expenses and stay on budget.</p>
+    </div>
+
+    <ion-card class="login-card">
+      <ion-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          
+          <ion-item lines="none" class="custom-input">
+            <ion-label position="stacked">Email</ion-label>
+            <ion-input type="email" placeholder="email@example.com" formControlName="email"></ion-input>
+          </ion-item>
+          <div class="error-msg" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+            <small>Please enter a valid email address</small>
+          </div>
+
+          <ion-item lines="none" class="custom-input ion-margin-top">
+  <ion-label position="stacked">Password</ion-label>
+  
+  <ion-input 
+    [type]="passwordType" 
+    formControlName="password" 
+    placeholder="Enter your password">
+    
+    <ion-button 
+      fill="clear" 
+      slot="end" 
+      (click)="togglePassword()" 
+      class="eye-button">
+      <ion-icon [name]="passwordIcon" color="medium"></ion-icon>
+    </ion-button>
+    
+  </ion-input>
+</ion-item>
+          <div class="error-msg" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            <small>Password must be at least 6 characters</small>
+          </div>
+
+          <ion-button expand="block" color="tertiary"type="submit" class="login-btn ion-margin-top" [disabled]="loginForm.invalid">
+            Login
+          </ion-button>
+
+       
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <p class="ion-text-center signup-text">
+      Don't have an account? <span class="highlight">Sign Up</span>
+    </p>
+  </div>
+</ion-content>

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Upload Invoice</ion-title>
+     <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+
+  
+   <img  *ngIf="image" [src]="image" class="preview"/>
+   <form>
+    <ion-input></ion-input>
+  </form>
+
+
+  <ion-tabs>
+  <ion-router-outlet></ion-router-outlet>
+  
+  <ion-tab-bar slot="bottom" color="tertiary">
+
+    <ion-tab-button tab="charts">
+      <ion-icon name="bar-chart-outline"></ion-icon>
+      <ion-label>Charts</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="upload" (click)="uploadImage()">
+      <ion-icon name="cloud-upload-outline"></ion-icon>
+     <ion-label>Upload</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>
+</ion-content>

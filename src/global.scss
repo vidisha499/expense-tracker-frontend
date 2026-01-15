@@ -35,3 +35,48 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/* Fix ion-alert radio visibility in dark theme */
+/* Ensure radio labels are visible in ion-alert */
+.alert-radio-label {
+  display: block !important;
+  color: #000 !important;
+  font-size: 16px;
+  padding-left: 12px;
+}
+
+/* Align radio + text nicely */
+.alert-radio {
+  align-items: center;
+}
+
+/* Increase spacing */
+.alert-radio-group {
+  padding-top: 10px;
+}
+
+/* Add this to global.scss if you want the calendar buttons to match */
+ion-datetime-button {
+  --background: #ffffff;
+  --color: #7b5cff; /* Tertiary color */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 2px;
+}
+
+
+/* Example using Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+:root {
+  /* This targets the entire Ionic framework's font system */
+  --ion-font-family: 'Inter', sans-serif;
+}
+
+body {
+  /* Fallback for standard HTML elements */
+  font-family: 'Inter', sans-serif;
+}
+* {
+  font-family: 'Inter', sans-serif !important;
+}

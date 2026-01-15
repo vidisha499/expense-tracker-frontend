@@ -1,0 +1,144 @@
+ion-alert {
+  --color: #000; 
+}
+
+ion-alert .alert-radio-label {
+  color: #000 !important;
+}
+
+
+.category-page {
+  --background: #f4f5f8;
+}
+
+
+ion-segment {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  background: #7b5cff;
+  padding: 4px;
+
+  ion-segment-button {
+    --indicator-color: var(--ion-color-tertiary);
+    --color-checked: #fff;
+    --background-checked: var(--ion-color-tertiary);
+    border-radius: 10px;
+    font-weight: 600;
+  }
+}
+
+/* Default Category Card */
+.default-card {
+  margin-top: 12px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7b5cff, #a084ff);
+  color: #fff;
+
+  .small-text {
+    font-size: 12px;
+    opacity: 0.9;
+    margin-bottom: 6px;
+  }
+
+  .default-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    ion-icon {
+      font-size: 20px;
+      opacity: 0.9;
+    }
+  }
+}
+
+/* Edit Order */
+.edit-order {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 4px;
+  color: var(--ion-color-medium);
+  font-size: 14px;
+
+  ion-icon {
+    font-size: 18px;
+  }
+}
+
+
+.category-card {
+  text-align: center;
+  padding: 18px 10px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  ion-icon {
+    font-size: 28px;
+    color: var(--ion-color-tertiary);
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  &:active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+}
+
+
+ion-grid {
+  padding-bottom: 90px; // space for FAB
+}
+
+
+ion-fab-button {
+  --background: var(--ion-color-tertiary);
+  --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  width: 56px;
+  height: 56px;
+
+  ion-icon {
+    font-size: 26px;
+  }
+}
+
+
+ion-title {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.alert-radio-label {
+  color: #ffffff !important;
+}
+
+.alert-wrapper {
+  --background: #1e1e1e;
+}
+
+.alert-radio-label {
+  color: #000000 !important; 
+  padding-left: 10px;
+  display: block;
+}
+
+
+.alert-radio-group {
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+}
