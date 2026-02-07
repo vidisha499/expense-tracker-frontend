@@ -3,7 +3,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 
 const routes: Routes = [
-  
+  {
+    path: '',
+    // Check if user is logged in to decide the starting page
+    redirectTo: localStorage.getItem('userId') ? 'home' : 'login',
+    pathMatch: 'full'
+  },
  {
     path: '',
     redirectTo: 'login',
@@ -39,7 +44,8 @@ const routes: Routes = [
   {
   path: 'display-details/:index',
   loadChildren: () => import('./home/display-details/display-details.module').then(m => m.DisplayDetailsPageModule)
-}
+},
+ 
   
   
  

@@ -20,11 +20,16 @@ export class AppModule {
   private router = inject(Router);
   modalCtrl: any;
 
-logout() {
-  console.log('LOGOUT CLICKED');
-  alert('Logout clicked');
-  this.router.navigate(['/home/login']);
+onLogout() {
+  // Remove the saved keys
+  localStorage.removeItem('userId');
+  localStorage.removeItem('email');
+  
+  // Optionally clear everything
+  // localStorage.clear(); 
 
+  // Redirect back to login
+  this.router.navigate(['/login'], { replaceUrl: true });
 }
 
 }

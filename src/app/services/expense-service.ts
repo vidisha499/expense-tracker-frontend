@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export interface Expense {
   id?: number;
@@ -22,9 +23,10 @@ export interface Expense {
   providedIn: 'root'
 })
 export class ExpenseService {
-  private API_URL = 'http://localhost:8008/expenses';
+  // private API_URL = 'http://localhost:8008/expenses';
   private expensesSubject = new BehaviorSubject<Expense[]>([]);
   expenses$ = this.expensesSubject.asObservable();
+   private API_URL = environment.apiUrl + '/expenses';
 
  
   private defaultCategories = [
@@ -36,7 +38,7 @@ export class ExpenseService {
     { id: 6, name: 'Medical', icon: 'heart-outline', type: 'expense' },
     { id: 7, name: 'Personal Care', icon: 'cut-outline', type: 'expense' },
     { id: 8, name: 'Education', icon: 'school-outline', type: 'expense' },
-    
+
     { id: 101, name: 'Salary', icon: 'cash-outline', type: 'income', isDefault: true },
     { id: 102, name: 'Business', icon: 'briefcase-outline', type: 'income' },
     { id: 103, name: 'Freelance', icon: 'laptop-outline', type: 'income' },
@@ -65,68 +67,54 @@ export class ExpenseService {
     return localStorage.getItem('userId');
   }
 
+
   loadExpenses() {
-    const userId = this.getUserId();
-    if (!userId) return;
+  const userId = this.getUserId();
+  if (!userId) return;
 
-    this.http.get<any[]>(`${this.API_URL}?user_id=${userId}`).subscribe({
-      next: (res) => {
-        const parsed: Expense[] = res.map(e => ({
-          id: e.id,
-          expenseName: e.expense_name,
-          title: e.title,
-          expenseHead: e.category,
-          bills: e.bills,
-          amount: e.amount,
-          paymentMode: e.payment_mode,
-          expenseDoneBy: e.expense_done_by,
-          otherPerson: e.otherPerson,
-          date: new Date(e.expense_date),
-          type: e.amount < 0 ? 'expense' : 'income',
-          remark: e.remark 
-        }));
-        this.expensesSubject.next(parsed);
-      },
-      error: err => console.error('Failed to load expenses', err)
-    });
-  }
+  this.http.get<any[]>(`${this.API_URL}?user_id=${userId}`).subscribe({
+    next: (res) => {
+      const parsed: Expense[] = res.map(e => ({
+        id: e.id,
+        expenseName: e.expense_name,
+        title: e.title,
+        expenseHead: e.category,
+        bills: e.bills,
+        amount: e.amount,
+        paymentMode: e.payment_mode,
+        expenseDoneBy: e.expense_done_by,
+        otherPerson: e.otherPerson,
+        date: new Date(e.expense_date),
+        type: e.amount < 0 ? 'expense' : 'income',
+        remark: e.remark
+      }));
+      this.expensesSubject.next(parsed);
+    }
+  });
+}
 
-  addExpense(expense: Expense): void {
-    const userId = this.getUserId();
-    if (!userId) return;
+addExpense(expense: Expense) {
+  const userId = this.getUserId();
+  if (!userId) return;
 
-    const updated = [expense, ...this.expensesSubject.value];
-    this.expensesSubject.next(updated);
+  this.http.post(this.API_URL, {
+    user_id: userId,
+    expense_name: expense.expenseName,
+    amount: expense.amount,
+    expense_done_by: expense.expenseDoneBy,
+    category: expense.expenseHead,
+    expense_date: expense.date.toISOString().split('T')[0],
+    payment_mode: expense.paymentMode,
+    remark: expense.remark
+  }).subscribe(() => this.loadExpenses());
+}
 
-    this.http.post(this.API_URL, {
-      user_id: userId,
-      expense_name: expense.expenseName,
-      amount: expense.amount,
-      expense_done_by: expense.expenseDoneBy,
-      category: expense.expenseHead,
-      expense_date: expense.date.toISOString().split('T')[0],
-      payment_mode: expense.paymentMode,
-      remark: expense.remark 
-    }).subscribe({
-      next: (res: any) => {
-        if (res && res.id) {
-          const current = this.expensesSubject.value.filter(e => e !== expense);
-          this.expensesSubject.next([{ ...expense, id: res.id }, ...current]);
-        }
-      },
-      error: err => this.loadExpenses()
-    });
-  }
+deleteExpenseFromDB(id: number) {
+  this.http.delete(`${this.API_URL}/${id}`).subscribe(() => {
+    this.loadExpenses();
+  });
+}
 
-  deleteExpenseFromDB(id: number): void {
-    const updated = this.expensesSubject.value.filter(e => e.id !== id);
-    this.expensesSubject.next(updated);
-
-    this.http.delete(`${this.API_URL}/${id}`).subscribe({
-      next: () => {},
-      error: err => console.error('Failed to delete expense', err)
-    });
-  }
 
   getTotalIncome() {
     return this.expensesSubject.value
@@ -158,11 +146,19 @@ export class ExpenseService {
     return palette[index % palette.length];
   }
 
-  login(username: string, password: string) {
-    return this.http.post<{ id: number; username: string }>(
-      'http://localhost:8008/login', { username, password }
-    );
-  }
+  // login(username: string, password: string) {
+  //   return this.http.post<{ id: number; username: string }>(
+  //     'http://localhost:8008/login', { username, password }
+  //   );
+  // }
+
+  login(email: string, password: string) {
+  return this.http.post(`${environment.apiUrl}/login`, {
+    email,
+    password
+  });
+}
+
 
   clearData() {
     this.expensesSubject.next([]);

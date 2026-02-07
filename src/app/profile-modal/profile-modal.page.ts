@@ -15,9 +15,7 @@ export class ProfileModalPage implements OnInit {
   userProfile: any = {
     email: '',
     phone: '',
-    bio: '',
-    darkMode: false,
-    notifications: true
+   
   };
 
   constructor(

@@ -1,8 +1,27 @@
+<style>
+  .unified-size {
+    font-size: 1rem !important;
+    --font-size: 1rem !important;
+  }
+  .bold-label {
+    font-weight: 600 !important;
+    color: #333 !important;
+    letter-spacing: 0.3px;
+  }
+  .required-star {
+    color: red;
+  }
+  /* Added specific spacing for the card items */
+  .form-item-spacing {
+    margin-bottom: 12px;
+  }
+</style>
+
 <ion-header class="ion-no-border">
   <ion-toolbar style="--background: linear-gradient(135deg, #6a11cb 0%, #a29bfe 100%); --color: white;">
-    <ion-title>{{ selectedType === 'expense' ? 'Add Expense' : 'Add Income' }}</ion-title>
+    <ion-title class="unified-size">{{ selectedType === 'expense' ? 'Add Expense' : 'Add Income' }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="close()" style="--color: white;">Close</ion-button>
+      <ion-button fill="clear" (click)="close()" style="--color: white;" class="unified-size">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -13,67 +32,74 @@
     <ion-card>
       <ion-card-content>
         <ion-segment [value]="selectedType" (ionChange)="onTypeChange($event)">
-          <ion-segment-button value="expense"><ion-label>Expense</ion-label></ion-segment-button>
-          <ion-segment-button value="income"><ion-label>Income</ion-label></ion-segment-button>
+          <ion-segment-button value="expense">
+            <ion-label class="unified-size">Expense</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="income">
+            <ion-label class="unified-size">Income</ion-label>
+          </ion-segment-button>
         </ion-segment>
       </ion-card-content>
     </ion-card>
 
     <ion-card>
       <ion-card-header>
-        <ion-card-title style="color: #6a11cb; font-size: 1.1rem;">Details</ion-card-title>
+        <ion-card-title style="color: #6a11cb;" class="unified-size">Details</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <ion-item lines="full">
-          <ion-label position="floating">{{ selectedType === 'expense' ? 'Expense Name' : 'Income Name' }} <span style="color: red;">*</span></ion-label>
-          <ion-input formControlName="expenseName"></ion-input>
+        <ion-item lines="full" class="form-item-spacing">
+          <ion-label position="floating" class="unified-size">{{ selectedType === 'expense' ? 'Expense Name' : 'Income Name' }} <span class="required-star">*</span></ion-label>
+          <ion-input formControlName="expenseName" class="unified-size"></ion-input>
         </ion-item>
-        <div style="height: 18px; margin-left: 16px;">
-          <ion-text color="danger" *ngIf="expenseForm.get('expenseName')?.touched && expenseForm.get('expenseName')?.invalid">
-            <small>Name is required</small>
-          </ion-text>
-        </div>
+
+        <ion-item lines="full" class="form-item-spacing">
+          <ion-label position="floating" class="unified-size">{{ selectedType === 'expense' ? 'Expense Head' : 'Income Head' }} <span class="required-star">*</span></ion-label>
+          <ion-input formControlName="expenseHead" class="unified-size"></ion-input>
+        </ion-item>
 
         <ion-item lines="full">
-          <ion-label position="floating">{{ selectedType === 'expense' ? 'Expense Head' : 'Income Head' }} <span style="color: red;">*</span></ion-label>
-          <ion-input formControlName="expenseHead"></ion-input>
-        </ion-item>
-        <div style="height: 18px; margin-left: 16px;">
-          <ion-text color="danger" *ngIf="expenseForm.get('expenseHead')?.touched && expenseForm.get('expenseHead')?.invalid">
-            <small>Head is required</small>
-          </ion-text>
-        </div>
-
-        <ion-item lines="full">
-          <ion-label>{{ selectedType === 'expense' ? 'Expense Done By' : 'Income Done By' }} <span style="color: red;">*</span></ion-label>
-          <ion-select placeholder="Select" formControlName="expenseDoneBy">
+          <ion-label position="stacked" class="unified-size bold-label">
+            {{ selectedType === 'expense' ? 'Expense Done By' : 'Income Done By' }} <span class="required-star">*</span>
+          </ion-label>
+          <ion-select interface="popover" placeholder="Select" formControlName="expenseDoneBy" class="unified-size">
             <ion-select-option value="self">Self</ion-select-option>
             <ion-select-option value="company">Company</ion-select-option>
             <ion-select-option value="others">Others</ion-select-option>
           </ion-select>
         </ion-item>
-        <div style="height: 18px; margin-left: 16px;">
-          <ion-text color="danger" *ngIf="expenseForm.get('expenseDoneBy')?.touched && expenseForm.get('expenseDoneBy')?.invalid">
-            <small>Please select an option</small>
-          </ion-text>
-        </div>
-        
+
         <ion-item lines="full" *ngIf="expenseForm.value.expenseDoneBy === 'others'">
-          <ion-label position="floating">Specify Person <span style="color: red;">*</span></ion-label>
-          <ion-input formControlName="otherPerson"></ion-input>
+          <ion-label position="floating" class="unified-size">Specify Person <span class="required-star">*</span></ion-label>
+          <ion-input formControlName="otherPerson" class="unified-size"></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>
 
     <ion-card>
       <ion-card-content>
-        <ion-item lines="full" (click)="openCategoryPage()" detail="true" button="true">
-          <ion-label position="stacked">Category (Optional)</ion-label>
-          <ion-textarea formControlName="category" placeholder="Tap to select" [readonly]="true" rows="1" [autoGrow]="true"></ion-textarea>
+        <ion-item lines="full" (click)="openCategoryPage()" detail="true" button="true" style="margin-bottom: 20px;">
+          <ion-label position="stacked" class="unified-size bold-label">Category <span class="required-star">*</span></ion-label>
+          <ion-textarea 
+            formControlName="category" 
+            placeholder="Tap to select" 
+            [readonly]="true" 
+            rows="1" 
+            [autoGrow]="true"
+            class="unified-size"
+            style="margin-top: 8px;">
+          </ion-textarea>
         </ion-item>
+
         <ion-item lines="full">
-          <ion-label position="stacked">Remark</ion-label>
-          <ion-textarea formControlName="remark" placeholder="Add a note..." [autoGrow]="true" rows="2"></ion-textarea>
+          <ion-label position="stacked" class="unified-size bold-label">Remark (Optional)</ion-label>
+          <ion-textarea 
+            formControlName="remark" 
+            placeholder="Add a note..." 
+            [autoGrow]="true" 
+            rows="2"
+            class="unified-size"
+            style="margin-top: 8px;">
+          </ion-textarea>
         </ion-item>
       </ion-card-content>
     </ion-card>
@@ -81,27 +107,26 @@
     <ion-card>
       <ion-card-content>
         <ion-item lines="none">
-          <ion-label>Date <span style="color: red;">*</span></ion-label>
+          <ion-label class="unified-size">Date <span class="required-star">*</span></ion-label>
           <ion-datetime-button datetime="expenseDate"></ion-datetime-button>
         </ion-item>
         <ion-modal keep-contents-mounted="true">
-          <ng-template><ion-datetime id="expenseDate" presentation="date" formControlName="date" [max]="today"></ion-datetime></ng-template>
+          <ng-template>
+            <ion-datetime id="expenseDate" presentation="date" formControlName="date" [max]="today"></ion-datetime>
+          </ng-template>
         </ion-modal>
 
         <ion-item lines="full">
-          <ion-label position="floating">Amount <span style="color: red;">*</span></ion-label>
-          <ion-input type="number" formControlName="amount" placeholder="0.00"></ion-input>
+          <ion-label position="floating" class="unified-size">Amount <span class="required-star">*</span></ion-label>
+          <ion-input type="number" formControlName="amount" placeholder="0.00" class="unified-size"></ion-input>
         </ion-item>
-        <div style="height: 18px; margin-left: 16px;">
-          <ion-text color="danger" *ngIf="expenseForm.get('amount')?.touched && expenseForm.get('amount')?.invalid">
-            <small>Amount is required</small>
-          </ion-text>
-        </div>
       </ion-card-content>
     </ion-card>
 
     <ion-card>
-      <ion-card-header><ion-card-title>Bills</ion-card-title></ion-card-header>
+      <ion-card-header>
+        <ion-card-title class="unified-size">Bills (Optional)</ion-card-title>
+      </ion-card-header>
       <ion-card-content>
         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
           <div *ngFor="let img of images; let i = index" style="position: relative; width: 70px; height: 70px;">
@@ -116,42 +141,24 @@
     <ion-card>
       <ion-card-content>
         <ion-item lines="full">
-          <ion-label>Payment Mode <span style="color: red;">*</span></ion-label>
-          <ion-select formControlName="paymentMode">
+          <ion-label position="stacked" class="unified-size bold-label">Payment Mode <span class="required-star">*</span></ion-label>
+          <ion-select formControlName="paymentMode" interface="popover" placeholder="Select Mode" class="unified-size">
             <ion-select-option value="cash">Cash</ion-select-option>
             <ion-select-option value="online">Online</ion-select-option>
           </ion-select>
         </ion-item>
-        <div style="height: 18px; margin-left: 16px;">
-          <ion-text color="danger" *ngIf="expenseForm.get('paymentMode')?.touched && expenseForm.get('paymentMode')?.invalid">
-            <small>Required</small>
-          </ion-text>
-        </div>
       </ion-card-content>
     </ion-card>
 
     <ion-grid class="ion-margin-top">
       <ion-row>
         <ion-col size="6">
-          <ion-button expand="block" fill="outline" color="medium" (click)="onCancel()" style="--border-radius: 10px;">
-            Cancel
-          </ion-button>
+          <ion-button expand="block" fill="outline" color="medium" (click)="onCancel()" class="unified-size">Cancel</ion-button>
         </ion-col>
         <ion-col size="6">
-          <ion-button 
-            expand="block" 
-            (click)="onOk()" 
-            [disabled]="expenseForm.invalid"
-            style="--background: linear-gradient(135deg, #6a11cb 0%, #a29bfe 100%); --border-radius: 10px; --color: white;">
-            Save
-          </ion-button>
+          <ion-button expand="block" (click)="onOk()" [disabled]="expenseForm.invalid" style="--background: linear-gradient(135deg, #6a11cb 0%, #a29bfe 100%); --color: white;" class="unified-size">Save</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
-    
-    <p *ngIf="expenseForm.invalid" style="text-align: center; color: #999; font-size: 0.75rem;">
-      Please fill all mandatory fields (*) to enable Save
-    </p>
-
   </form>
 </ion-content>

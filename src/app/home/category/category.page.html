@@ -1,19 +1,17 @@
+
 <ion-header class="ion-no-border">
   <ion-toolbar color="dark">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="home" routerLink="home"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Categories</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear">
-        <ion-icon name="menu-outline"></ion-icon>
+    <ion-buttons slot="start" *ngIf="isSelectionMode">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-title>{{ isSelectionMode ? 'Select ' + selectedType : 'Categories' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding category-page">
-  <ion-segment [(ngModel)]="selectedType" mode="ios">
+  <ion-segment *ngIf="!isSelectionMode" [(ngModel)]="selectedType" mode="ios">
     <ion-segment-button value="expense">
       <ion-label>Expense</ion-label>
     </ion-segment-button>
@@ -28,12 +26,10 @@
         <ion-card class="category-card" (click)="openCategoryPopup(category)">
           <div class="card-content">
             <ion-icon [name]="category.icon"></ion-icon>
-            <p>{{ category.name }}</p>
+            <p>{{ category.name === 'Others' ? 'Add Category' : category.name }}</p>
           </div>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  
 </ion-content>

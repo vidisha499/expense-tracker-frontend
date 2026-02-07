@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Input } from '@angular/core';
 import { Category } from './category.module';
 import { Router } from '@angular/router';
 import { ExpenseService, Expense } from 'src/app/services/expense-service';
@@ -13,7 +13,11 @@ import { AddExpenseModalPage } from '../add-expense-modal/add-expense-modal.page
 })
 export class category implements OnInit {
   private router = inject(Router);
-  selectedType: 'expense' | 'income' = 'expense';
+  
+  // Inputs to handle selection mode from Add Expense Modal
+  @Input() isSelectionMode: boolean = false;
+  @Input() selectedType: 'expense' | 'income' = 'expense';
+
   categories: Category[] = [];
 
   constructor(
@@ -28,14 +32,49 @@ export class category implements OnInit {
     });
   }
 
+  // Filters categories based on the current type (Expense/Income)
   get filteredCategories(): Category[] {
     return this.categories.filter((c) => c.type === this.selectedType);
   }
 
+  async openCategoryPopup(category: Category) {
+    // 1. Handle "Add Category" (formerly Others)
+    if (category.name === 'Others' || category.name === 'Add Category') {
+      await this.addNewCustomCategory();
+      return;
+    }
+
+    // 2. Handle Selection Mode (Return to Add Expense Modal)
+    if (this.isSelectionMode) {
+      this.modalCtrl.dismiss(category);
+      return;
+    }
+
+    // 3. Handle Normal Mode (Show Action Alert)
+    const alert = await this.alertCtrl.create({
+      header: category.name,
+      message: 'Choose an action',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          cssClass: 'alert-danger',
+          handler: () => { this.confirmDelete(category); }
+        },
+        {
+          text: 'Add Transaction',
+          handler: () => { this.showAmountInput(category); }
+        },
+        { text: 'Cancel', role: 'cancel' }
+      ]
+    });
+    await alert.present();
+  }
+
   async addNewCustomCategory() {
     const alert = await this.alertCtrl.create({
-      header: 'New Category',
-      inputs: [{ name: 'name', type: 'text', placeholder: 'Category Name (e.g. Gym)' }],
+      header: `New ${this.selectedType} Category`,
+      inputs: [{ name: 'name', type: 'text', placeholder: 'Category Name' }],
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         {
@@ -50,6 +89,10 @@ export class category implements OnInit {
             };
             const updatedCategories = [...this.categories, newCat];
             this.expenseService.saveCategories(updatedCategories);
+            
+            if (this.isSelectionMode) {
+              this.modalCtrl.dismiss(newCat);
+            }
             return true;
           }
         }
@@ -58,91 +101,30 @@ export class category implements OnInit {
     await alert.present();
   }
 
-  async openCategoryPopup(category: Category) {
-    if (category.name === 'Others') {
-      await this.addNewCustomCategory();
-    } else {
-      const alert = await this.alertCtrl.create({
-        header: category.name,
-        message: 'Choose an action',
-        buttons: [
-          {
-            text: 'Delete',
-            role: 'destructive',
-            cssClass: 'alert-danger',
-            handler: () => { this.confirmDelete(category); }
-          },
-          {
-            text: 'Add Transaction',
-            handler: () => { this.showAmountInput(category); }
-          },
-          { text: 'Cancel', role: 'cancel' }
-        ]
-      });
-      await alert.present();
-    }
+  // FIX: Added the missing showAmountInput method
+  async showAmountInput(category: Category) {
+    const modal = await this.modalCtrl.create({
+      component: AddExpenseModalPage,
+      componentProps: { 
+        preSelectedCategory: category.name,
+        preSelectedType: this.selectedType 
+      },
+    });
+
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (!data) return;
+
+    const expense: Expense = {
+      ...data,
+      date: new Date(data.date),
+      amount: data.type === 'expense' ? -Math.abs(+data.amount) : +data.amount,
+    };
+    
+    this.expenseService.addExpense(expense);
   }
 
-  // async showAmountInput(category: Category) {
-  //   const modal = await this.modalCtrl.create({
-  //     component: AddExpenseModalPage,
-  //     // PASS DATA TO MODAL HERE
-  //     componentProps: { 
-  //       preSelectedCategory: category.name,
-  //       preSelectedType: this.selectedType 
-  //     },
-  //   });
-
-  //   await modal.present();
-  //   const { data } = await modal.onWillDismiss();
-  //   if (!data) return;
-
-  //   const isExpense = data.type === 'expense';
-  //   const expense: Expense = {
-  //     expenseName: data.expenseName,
-  //     expenseHead: data.expenseHead || 'Others',
-  //     amount: isExpense ? -Math.abs(+data.amount) : +data.amount,
-  //     paymentMode: data.paymentMode,
-  //     expenseDoneBy: data.expenseDoneBy || 'self',
-  //     date: new Date(data.date),
-  //     type: data.type,
-  //     remark: data.remark
-  //   };
-  //   this.expenseService.addExpense(expense);
-  // }
-
-  async showAmountInput(category: Category) {
-  const modal = await this.modalCtrl.create({
-    component: AddExpenseModalPage,
-    componentProps: { 
-      preSelectedCategory: category.name,
-      preSelectedType: this.selectedType 
-    },
-  });
-
-  await modal.present();
-  const { data } = await modal.onWillDismiss();
-  if (!data) return;
-
-  const isExpense = data.type === 'expense';
-  
-  
-  const expense: Expense = {
-    expenseName: data.expenseName,
-    expenseHead: data.expenseHead || 'Others',
-    amount: isExpense ? -Math.abs(+data.amount) : +data.amount,
-    paymentMode: data.paymentMode,
-    expenseDoneBy: data.expenseDoneBy || 'self',
-    otherPerson: data.otherPerson, 
-    date: new Date(data.date),
-    type: data.type,
-    remark: data.remark,
-    bills: data.bills 
-  };
-  
-  this.expenseService.addExpense(expense);
-}
-
+  // FIX: Added the missing confirmDelete method
   async confirmDelete(category: Category) {
     if (category.isDefault) {
       const errorAlert = await this.alertCtrl.create({
@@ -169,5 +151,13 @@ export class category implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  closeModal() {
+    this.modalCtrl.dismiss();
+  }
+
+  goBack() {
+    this.router.navigate(['home']);
   }
 }

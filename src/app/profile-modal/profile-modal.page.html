@@ -1,23 +1,8 @@
-
-
-<ion-header class="ion-no-border">
-  <ion-toolbar class="aesthetic-toolbar">
-    <ion-title>Profile</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="exit()">
-        <ion-icon slot="icon-only" name="close-outline" color="light"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="purple-theme">
   <div class="profile-header-new">
-      <div class="avatar-wrapper">
-        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-        <div class="status-indicator"></div>
-      </div>
-      <!-- <h2 class="user-name">{{ userProfile.name || 'User Name' }}</h2> -->
+    <div class="avatar-wrapper">
+      <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </div>
   </div>
 
   <div class="glass-card">
@@ -37,24 +22,16 @@
   </div>
 
   <div class="glass-card">
-      <ion-item lines="none" class="aesthetic-item" (click)="changePassword()" button="true">
-        <ion-icon slot="start" name="key-outline"></ion-icon>
-        <ion-label>Security & Privacy</ion-label>
-        <ion-icon slot="end" name="chevron-forward" size="small"></ion-icon>
-      </ion-item>
+    <ion-item lines="none" class="aesthetic-item" (click)="changePassword()" button="true">
+      <ion-icon slot="start" name="shield-checkmark-outline"></ion-icon>
+      <ion-label>Security & Privacy</ion-label>
+      <ion-icon slot="end" name="chevron-forward" size="small"></ion-icon>
+    </ion-item>
+  </div>
 
-      <!-- <ion-item lines="none" class="aesthetic-item">
-        <ion-icon slot="start" name="moon-outline"></ion-icon>
-        <ion-label>Dark Mode</ion-label>
-        <ion-toggle slot="end" color="tertiary" [checked]="userProfile?.darkMode"></ion-toggle>
-      </ion-item> -->
-    </div>
-
-    <div class="ion-padding">
-      <ion-button expand="block" class="purple-gradient-btn" (click)="saveAndClose()">
-        Save Changes
-      </ion-button>
-    </div>
-
-  
-  </ion-content>
+  <div class="ion-padding">
+    <ion-button expand="block" class="purple-gradient-btn" (click)="saveAndClose()">
+      Save Changes
+    </ion-button>
+  </div>
+</ion-content>

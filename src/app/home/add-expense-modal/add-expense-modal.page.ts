@@ -51,22 +51,26 @@ export class AddExpenseModalPage implements OnInit {
     });
   }
 
+
   async openCategoryPage() {
-    const modal = await this.modalCtrl.create({
-      component: category,
-      componentProps: { selectedType: this.selectedType }
-    });
-    await modal.present();
-    const { data, role } = await modal.onWillDismiss();
-    
-    if (role === 'confirm' && data) {
-      this.expenseForm.patchValue({
-        category: data.categoryName,
-        expenseName: data.categoryName,
-        
-      });
+  const modal = await this.modalCtrl.create({
+    component: category,
+    componentProps: { 
+      isSelectionMode: true,
+      selectedType: this.selectedType // Passing the form's current type (expense/income)
     }
+  });
+
+  await modal.present();
+  const { data } = await modal.onWillDismiss();
+  
+  if (data) {
+    this.expenseForm.patchValue({
+      category: data.name,
+      expenseName: data.name
+    });
   }
+}
 
   onTypeChange(event: any) {
     this.selectedType = event.detail.value;

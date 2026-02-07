@@ -1,10 +1,10 @@
-
-
 import { Component, OnInit } from '@angular/core';
 import jsPDF from 'jspdf';
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 import { ExpenseService, Expense } from '../../services/expense-service';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { FileOpener } from '@capacitor-community/file-opener';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-reports',
@@ -21,41 +21,49 @@ export class ReportsPage implements OnInit {
   startDate: string = new Date().toISOString();
   endDate: string = new Date().toISOString();
 
-  constructor(private expenseService: ExpenseService) {}
+  constructor(
+    private expenseService: ExpenseService,
+    private platform: Platform
+  ) {}
 
   ngOnInit() {
-    // This listener automatically updates the dropdown whenever a user adds a new transaction
+    // Listener for transactions
     this.expenseService.expenses$.subscribe((data: Expense[]) => {
       this.expensesList = data;
-      
-      // We target 'expenseHead' specifically, as this is the field from your Add Expense modal
-      const userDefinedCategories = data
-        .map(e => e.expenseHead) 
-        .filter((cat): cat is string => !!cat && cat.trim() !== ''); // Removes null, undefined, or empty strings
+      this.updateCategoryDropdown();
+    });
 
-      // Create a unique list and sort it alphabetically
-      this.categories = [...new Set(userDefinedCategories)].sort();
+    // Listener for user-added categories to ensure they persist
+    this.expenseService.categories$.subscribe(() => {
+      this.updateCategoryDropdown();
+    });
+  }
+
+  private updateCategoryDropdown() {
+    const usedInTransactions = this.expensesList
+      .map(e => e.expenseHead) 
+      .filter((cat): cat is string => !!cat && cat.trim() !== '');
+
+    this.expenseService.categories$.subscribe(savedCats => {
+      const savedNames = savedCats.map(c => c.name);
+      // Combine used heads and saved category names
+      const combined = [...new Set([...usedInTransactions, ...savedNames])];
+      this.categories = combined.sort();
     });
   }
 
   private getFilteredData(): Expense[] {
     return this.expensesList.filter((e) => {
       let matchesType = true;
-      
-      if (this.reportType === 'expense') {
-        matchesType = e.amount < 0;
-      } else if (this.reportType === 'income') {
-        matchesType = e.amount > 0;
-      } else if (this.reportType === 'category') {
-        // If "All Categories" is selected (empty string), show everything. 
-        // Otherwise, match exactly what the user picked.
+      if (this.reportType === 'expense') matchesType = e.amount < 0;
+      else if (this.reportType === 'income') matchesType = e.amount > 0;
+      else if (this.reportType === 'category') {
         matchesType = this.selectedCategory === '' || (e.expenseHead === this.selectedCategory);
       }
 
       const expenseDate = new Date(e.date).getTime();
       const start = new Date(this.startDate).setHours(0, 0, 0, 0);
       const end = new Date(this.endDate).setHours(23, 59, 59, 999);
-      
       return matchesType && (expenseDate >= start && expenseDate <= end);
     });
   }
@@ -64,7 +72,7 @@ export class ReportsPage implements OnInit {
     return data.reduce((sum, item) => sum + Math.abs(item.amount), 0);
   }
 
-  generatePDF() {
+  async generatePDF() {
     const data = this.getFilteredData();
     const total = this.getTotalAmount(data);
     const doc = new jsPDF();
@@ -78,8 +86,9 @@ export class ReportsPage implements OnInit {
       title = 'Income Report';
     }
 
+    // --- RESTORED ORIGINAL FORMATTING ---
     doc.setFontSize(20);
-    doc.setTextColor(123, 92, 255);
+    doc.setTextColor(123, 92, 255); // Original Purple
     doc.text(title, 14, 20);
 
     doc.setFontSize(10);
@@ -107,8 +116,8 @@ export class ReportsPage implements OnInit {
       doc.text(exp.expenseHead || 'Uncategorized', 50, y);
       doc.text(exp.expenseName || '—', 100, y);
       
-      if (exp.amount < 0) doc.setTextColor(200, 0, 0);
-      else doc.setTextColor(0, 150, 0);
+      if (exp.amount < 0) doc.setTextColor(200, 0, 0); // Red for expense
+      else doc.setTextColor(0, 150, 0); // Green for income
 
       doc.text(`INR ${Math.abs(exp.amount).toLocaleString()}`, 170, y);
       doc.setTextColor(0);
@@ -124,10 +133,18 @@ export class ReportsPage implements OnInit {
     doc.text('TOTAL', 100, y);
     doc.text(`INR ${total.toLocaleString()}`, 170, y);
 
-    doc.save(`${title.replace(/\s+/g, '_')}_${new Date().getTime()}.pdf`);
+    const fileName = `${title.replace(/\s+/g, '_')}_${new Date().getTime()}.pdf`;
+
+    // MOBILE Logic
+    if (this.platform.is('hybrid')) {
+      const pdfBase64 = doc.output('datauristring').split(',')[1];
+      await this.saveAndOpenFile(pdfBase64, fileName, 'application/pdf');
+    } else {
+      doc.save(fileName);
+    }
   }
 
-  generateExcel() {
+  async generateExcel() {
     const data = this.getFilteredData();
     const reportData = data.map((exp) => ({
       Date: new Date(exp.date).toLocaleDateString(),
@@ -138,10 +155,33 @@ export class ReportsPage implements OnInit {
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(reportData);
-    const workbook = { Sheets: { Report: worksheet }, SheetNames: ['Report'] };
-    const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Report');
     
-    saveAs(blob, `Report_${new Date().getTime()}.xlsx`);
+    const fileName = `Report_${new Date().getTime()}.xlsx`;
+
+    if (this.platform.is('hybrid')) {
+      const excelBase64 = XLSX.write(workbook, { bookType: 'xlsx', type: 'base64' });
+      await this.saveAndOpenFile(excelBase64, fileName, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    } else {
+      const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const { saveAs } = await import('file-saver');
+      saveAs(blob, fileName);
+    }
+  }
+
+  private async saveAndOpenFile(base64Data: string, fileName: string, contentType: string) {
+    try {
+      const savedFile = await Filesystem.writeFile({
+        path: fileName,
+        data: base64Data,
+        directory: Directory.Cache
+      });
+      await FileOpener.open({ filePath: savedFile.uri, contentType });
+    } catch (error) {
+      console.error('File Error', error);
+      alert('Cannot open file. Please ensure a viewer is installed.');
+    }
   }
 }

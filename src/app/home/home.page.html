@@ -8,145 +8,113 @@
 </ion-header>
 
 <ion-content>
-  <div class="summary">
-    <div class="summary-header">
+  
+  <div class="summary" style="background: linear-gradient(135deg,  #7b5cff, #5e8cda); color: white; padding: 12px 16px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+    
+    <div class="summary-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
       <div>
-        <h2 style="margin: 0;">{{ today | date:'MMMM yyyy' }}</h2>
-        <ion-badge color="danger" *ngIf="dateRangeActive" style="font-size: 0.7rem;">
+        <h2 style="margin: 0; font-weight: 600; font-size: 1.1rem; color:white;">{{ today | date:'MMMM yyyy' }}</h2>
+        <ion-badge color="light" *ngIf="dateRangeActive" style="font-size: 0.6rem; color: #1e3c72; padding: 2px 6px;">
           Filtered Range
         </ion-badge>
       </div>
       
-      <!-- <ion-button fill="clear" id="open-date-modal">
-        <ion-icon name="calendar-outline" slot="icon-only" color="tertiary" style="font-size: 1.8rem;"></ion-icon>
-      </ion-button> -->
-
-      <ion-button fill="clear" (click)="setOpen(true)">
-  <ion-icon name="calendar-outline" slot="icon-only" color="tertiary" style="font-size: 1.8rem;"></ion-icon>
-</ion-button>
+      <ion-button fill="clear" size="small" (click)="setOpen(true)">
+        <ion-icon name="calendar-outline" slot="icon-only" style="color: white; font-size: 1.3rem;"></ion-icon>
+      </ion-button>
     </div>
 
-    <div class="totals">
-      <span>💸 Expense: <strong>₹{{ totalExpense | number }}</strong></span>
-      <span>💰 Income: <strong>₹{{ totalIncome | number }}</strong></span>
+    <div class="balance-container" style="text-align: center; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+      <p style="margin: 0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8;">Available Balance</p>
+      <h1 style="margin: 2px 0; font-size: 2rem; font-weight: 700;">
+        ₹{{ (totalIncome - totalExpense) | number }}
+      </h1>
+    </div>
+
+    <div class="totals" style="display: flex; justify-content: space-between; gap: 8px;">
+      <div class="incom" style="flex: 1; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 12px; text-align: center;">
+        <small style="display: block; font-size: 0.7rem; opacity: 0.9; margin-bottom: 2px;color:white;">💰 Income</small>
+        <strong style="font-size: 1.1rem; color: #2dd36f;">₹{{ totalIncome | number }}</strong>
+      </div>
+
+      <div class="expense" style="flex: 1; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 12px; text-align: center;">
+        <small style="display: block; font-size: 0.7rem; opacity: 0.9; margin-bottom: 2px;color:white;">💸 Expense</small>
+        <strong style="font-size: 1.1rem; color: #ff4961;">₹{{ totalExpense | number }}</strong>
+      </div>
     </div>
   </div>
 
-  <div class="filter-row">
-    <div class="filter-btn spending" 
-         [class.active]="filter === 'expense'" 
-         [class.inactive]="filter === 'income'"
-         (click)="setFilter('expense')">
-      <div class="icon-circle"><ion-icon name="arrow-up-outline"></ion-icon></div>
-      <div class="label-group"><small>Expense</small></div>
+  <div class="filter-row" style="display: flex; gap: 12px; padding: 20px 15px;">
+    <div class="filter-btn" 
+         (click)="setFilter('expense')"
+         [style.opacity]="filter === 'income' ? '0.4' : '1'"
+         style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 15px; background: #eb445a; color: white; box-shadow: 0 4px 8px rgba(235, 68, 90, 0.3);">
+      <ion-icon name="arrow-up-outline"></ion-icon>
+      <span style="font-weight: 700; font-size: 0.9rem; text-transform: uppercase;">Expense</span>
     </div>
     
-    <div class="filter-btn income" 
-         [class.active]="filter === 'income'" 
-         [class.inactive]="filter === 'expense'"
-         (click)="setFilter('income')">
-      <div class="icon-circle"><ion-icon name="arrow-down-outline"></ion-icon></div>
-      <div class="label-group"><small>Income</small></div>
+    <div class="filter-btn" 
+         (click)="setFilter('income')"
+         [style.opacity]="filter === 'expense' ? '0.4' : '1'"
+         style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 15px; background: #2dd36f; color: white; box-shadow: 0 4px 8px rgba(45, 211, 111, 0.3);">
+      <ion-icon name="arrow-down-outline"></ion-icon>
+      <span style="font-weight: 700; font-size: 0.9rem; text-transform: uppercase;">Income</span>
     </div>
   </div>
 
-  <ion-list *ngIf="filteredExpenses.length > 0">
-    <ion-item *ngFor="let e of filteredExpenses; let i = index" 
-              button 
-             >
-      <ion-label  [routerLink]="['/display-details', i]">
-        <h2>{{ e.expenseName || e.title }}</h2>
-        <p>{{ e.date | date:'dd/MM/yyyy' }} • {{ e.paymentMode}}</p>
-      </ion-label>
-      <ion-text slot="end" [color]="e.type === 'expense' ? 'warning' : 'success'">
-        ₹{{ e.amount | number }}
-      </ion-text>
-      <ion-button fill="clear" color="danger" slot="end"   (click)="deleteExpense(i); $event.stopPropagation()">
-        <ion-icon name="trash" ></ion-icon>
-      </ion-button>
-    </ion-item>
+  <ion-list *ngIf="filteredExpenses.length > 0" lines="full">
+    <ion-item-sliding *ngFor="let e of filteredExpenses; let i = index">
+      <ion-item button detail="false">
+        <ion-label [routerLink]="['/display-details', i]">
+          <h2 style="font-weight: 600; font-size: 0.95rem;">{{ e.expenseName || e.title }}</h2>
+          <p style="font-size: 0.75rem; color: #666;">{{ e.date | date:'dd MMM yyyy' }} • {{ e.paymentMode}}</p>
+        </ion-label>
+        
+        <ion-text slot="end" style="font-weight: 700; font-size: 1rem;">
+          <span [style.color]="e.type === 'expense' ? '#eb445a' : '#2dd36f'">
+            <!-- {{ e.type === 'expense' ? '-' : '+' }}-->₹{{ e.amount  }} 
+          </span>
+        </ion-text>
+
+        <ion-button fill="clear" color="medium" slot="end" (click)="deleteExpense(i); $event.stopPropagation()">
+          <ion-icon name="trash-outline" style="font-size: 1.1rem;"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-item-sliding>
   </ion-list>
 
-  <div class="ion-padding ion-text-center" *ngIf="filteredExpenses.length === 0">
-    <ion-text color="medium"><p>No transactions found for this selection.</p></ion-text>
+  <div class="ion-padding ion-text-center" *ngIf="filteredExpenses.length === 0" style="margin-top: 40px; opacity: 0.5;">
+    <ion-icon name="receipt-outline" style="font-size: 3rem; color: #ccc;"></ion-icon>
+    <p>No transactions found.</p>
   </div>
 
-  <!-- <ion-modal trigger="open-date-modal" #dateModal initialBreakpoint="0.6" [breakpoints]="[0, 0.6, 0.9]"> -->
-    <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" #dateModal initialBreakpoint="0.6" [breakpoints]="[0, 0.6, 0.9]">
-  
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" #dateModal initialBreakpoint="0.4" [breakpoints]="[0, 0.4, 0.7]">
     <ng-template>
-      <div class="modal-handle"></div>
-      <ion-header class="ion-no-border">
-        <ion-toolbar>
-          <ion-title>Select Range</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="dateModal.dismiss()" color="medium">
-              <ion-icon name="close-circle" slot="icon-only"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content class="ion-padding">
-        <p style="color: #666; margin: 0 0 20px 5px; font-size: 0.9rem;">
-          Pick a start and end date to filter your vault.
-        </p>
-        
-        <div class="date-container">
-          <ion-item lines="full" id="start-date-trigger" button="true" detail="false">
-            <ion-label>From</ion-label>
-            <ion-text slot="end" color="primary">
-              {{ filterStartDate | date:'mediumDate' }}
-            </ion-text>
-            
-            <ion-popover trigger="start-date-trigger" #startPopover [dismissOnSelect]="false">
-              <ng-template>
-                <ion-datetime 
-                  presentation="date" 
-                  [(ngModel)]="filterStartDate" 
-                  (ionChange)="startPopover.dismiss()"
-                  color="danger">
-                </ion-datetime>
-              </ng-template>
-            </ion-popover>
+      <div style="padding: 16px;">
+        <div style="width: 36px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 0 auto 16px;"></div>
+        <ion-title style="padding: 0; font-size: 1rem; font-weight: 600;">Select Range</ion-title>
+        <div style="margin-top: 15px;">
+          <ion-item lines="full" id="start-date-trigger" button="true">
+            <ion-label style="font-size: 0.85rem;">From</ion-label>
+            <ion-text slot="end" color="primary">{{ filterStartDate | date:'mediumDate' }}</ion-text>
           </ion-item>
-
-          <ion-item lines="none" id="end-date-trigger" button="true" detail="false">
-            <ion-label>To</ion-label>
-            <ion-text slot="end" color="primary">
-              {{ filterEndDate | date:'mediumDate' }}
-            </ion-text>
-            
-            <ion-popover trigger="end-date-trigger" #endPopover [dismissOnSelect]="false">
-              <ng-template>
-                <ion-datetime 
-                  presentation="date" 
-                  [(ngModel)]="filterEndDate" 
-                  (ionChange)="endPopover.dismiss()"
-                  color="danger">
-                </ion-datetime>
-              </ng-template>
-            </ion-popover>
+          <ion-item lines="none" id="end-date-trigger" button="true">
+            <ion-label style="font-size: 0.85rem;">To</ion-label>
+            <ion-text slot="end" color="primary">{{ filterEndDate | date:'mediumDate' }}</ion-text>
           </ion-item>
         </div>
-
-        <ion-button expand="block" class="apply-btn" (click)="applyRangeFilter(); dateModal.dismiss()">
-          Apply Selection
+        <ion-button expand="block" color="danger" (click)="applyRangeFilter(); dateModal.dismiss()" style="margin-top: 15px; --border-radius: 10px;">
+          Apply
         </ion-button>
-        <ion-button expand="block" fill="clear" class="reset-btn" (click)="clearRangeFilter(); dateModal.dismiss()">
-          Reset Filters
-        </ion-button>
-      </ion-content>
+      </div>
     </ng-template>
   </ion-modal>
 
-  
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab">
-  <ion-fab-button color="danger" (click)="addExpense()">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="danger" (click)="addExpense()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 
 <ion-footer>

@@ -38,6 +38,7 @@ const routes: Routes = [
     path: 'display-details',
     loadChildren: () => import('./display-details/display-details.module').then( m => m.DisplayDetailsPageModule)
   },
+
  
    
 ];

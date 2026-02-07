@@ -2,12 +2,17 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// export const environment = {
+//   production: false,
+//   apiUrl: 'http://localhost:8008/api'
+// };
+
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8008/api'
+  production: true,
+  apiUrl: 'https://expense-tracker-backend-2-m9ff.onrender.com'
 };
 
-
+ 
 
 /*
  * For easier debugging in development mode, you can import the following file

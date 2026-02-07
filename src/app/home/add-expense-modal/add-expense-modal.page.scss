@@ -1,8 +1,34 @@
 
 
-.required-text {
+
+/* 1. Global Font Size Reset */
+* {
+  font-size: 1rem !important;
+}
+
+/* 2. Ionic Specific Overrides */
+ion-item, ion-label, ion-input, ion-textarea, ion-select, ion-button, ion-title {
+  --font-size: 1rem !important;
+  font-size: 1rem !important;
+}
+
+/* This stops Ionic from shrinking the label when it floats or stacks */
+ion-label[position="floating"], 
+ion-label[position="stacked"] {
+  transform: translateY(0) scale(1) !important;
+  margin-bottom: 10px !important;
+  font-size: 1rem !important;
+}
+
+/* 3. Bold Styling for specific fields */
+.bold-label {
+  font-weight: 700 !important;
+  color: #333 !important;
+}
+
+/* 4. Your Image & Validation Styles */
+.required-star {
   color: red;
-  font-size: 12px;
 }
 
 .image-container {
@@ -29,20 +55,11 @@
   border-radius: 8px;
 }
 
-.add-box {
-  font-size: 30px;
-  color: #888;
-}
-
 .delete-icon {
   position: absolute;
   top: -6px;
   right: -6px;
-  font-size: 18px;
+  font-size: 18px !important;
   color: red;
 }
 
-
-ion-card-title {
-  font-weight: 700;
-}
