@@ -1,33 +1,23 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-
 const routes: Routes = [
   {
     path: '',
-    // Check if user is logged in to decide the starting page
     redirectTo: localStorage.getItem('userId') ? 'home' : 'login',
-    pathMatch: 'full'
-  },
- {
-    path: '',
-    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
     path: 'login',
-    loadChildren: () =>
-      import('./home/login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () => import('./home/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'signup',
-    loadChildren: () =>
-      import('./home/signup/signup.module').then(m => m.SignupPageModule)
+    loadChildren: () => import('./home/signup/signup.module').then(m => m.SignupPageModule)
   },
   {
     path: 'home',
-    loadChildren: () =>
-      import('./home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
     path: 'upload',
@@ -39,8 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'category',
-    loadChildren: () =>
-      import('./home/category/category.module').then( m => m.CategoryPageModule),
+    loadChildren: () => import('./home/category/category.module').then( m => m.CategoryPageModule)
   },
   {
     path: 'profile-modal',
@@ -53,15 +42,11 @@ const routes: Routes = [
   {
     path: 'security',
     loadChildren: () => import('./pages/security/security.module').then(m => m.SecurityPageModule)
-  },  {
+  },
+  {
     path: 'goals',
     loadChildren: () => import('./pages/goals/goals.module').then( m => m.GoalsPageModule)
-  },
-
- 
-  
-  
- 
+  }
 ];
 
 @NgModule({

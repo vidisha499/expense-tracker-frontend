@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, ActionSheetController } from '@ionic/angular';
 import { ProfileService } from '../services/profile-service';
 
 @Component({
@@ -18,11 +18,62 @@ export class ProfileModalPage implements OnInit {
     last_name: '',
     email: '',
     phone: '',
+    profile_image: null
   };
+
+  async uploadImage() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Profile Photo',
+      buttons: [
+        {
+          text: 'Take Picture',
+          icon: 'camera-outline',
+          handler: () => {
+            this.capturePhoto('CAMERA');
+          }
+        },
+        {
+          text: 'Choose from Gallery',
+          icon: 'images-outline',
+          handler: () => {
+            this.capturePhoto('PHOTOS');
+          }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close-outline',
+          role: 'cancel'
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  private async capturePhoto(sourceType: 'CAMERA' | 'PHOTOS') {
+    try {
+      const { Camera } = await import('@capacitor/camera');
+      const { CameraResultType, CameraSource } = await import('@capacitor/camera');
+      
+      const image = await Camera.getPhoto({
+        quality: 50,
+        allowEditing: true,
+        resultType: CameraResultType.Base64,
+        source: sourceType === 'CAMERA' ? CameraSource.Camera : CameraSource.Photos
+      });
+
+      if (image && image.base64String) {
+        this.userProfile.profile_image = `data:image/jpeg;base64,${image.base64String}`;
+        console.log("📸 New Profile Image Captured");
+      }
+    } catch (err) {
+      console.error("❌ Camera error:", err);
+    }
+  }
 
   constructor(
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
+    private actionSheetCtrl: ActionSheetController,
     private profileService: ProfileService
   ) { }
 
@@ -61,7 +112,8 @@ export class ProfileModalPage implements OnInit {
           first_name: data.first_name || '',
           last_name: data.last_name || '',
           email: data.email || '',
-          phone: data.phone || ''
+          phone: data.phone || '',
+          profile_image: data.profile_image || null
         };
         
         console.log("✅ Processed Profile Data:", this.userProfile);

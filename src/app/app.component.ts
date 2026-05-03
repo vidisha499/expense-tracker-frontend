@@ -11,6 +11,7 @@ import { AlertController, MenuController, ModalController } from '@ionic/angular
 })
 export class AppComponent {
   userName: string = 'User';
+  userImage: string | null = null;
 
 
   constructor(private router: Router,
@@ -51,27 +52,34 @@ export class AppComponent {
   }
 }
 
-loadUserData() {
-  const userId = localStorage.getItem('userId');
-  if (userId) {
-    this.profileService.getUserProfile(userId).subscribe({
-      next: (data: any) => {
-        if (data && data.first_name) {
-          this.userName = data.first_name;
-        }
-      },
-      error: (err) => console.error('Error loading user data:', err)
+  loadUserData() {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.profileService.getUserProfile(userId).subscribe({
+        next: (data: any) => {
+          this.updateLocalUserData(data);
+        },
+        error: (err) => console.error('Error loading user data:', err)
+      });
+    }
+  }
+
+  subscribeToProfile() {
+    this.profileService.profile$.subscribe(data => {
+      this.updateLocalUserData(data);
     });
   }
-}
 
-subscribeToProfile() {
-  this.profileService.profile$.subscribe(data => {
-    if (data && data.first_name) {
-      this.userName = data.first_name;
+  private updateLocalUserData(data: any) {
+    if (data) {
+      if (data.first_name && data.first_name.trim() !== '') {
+        this.userName = data.first_name;
+      } else {
+        this.userName = 'User';
+      }
+      this.userImage = data.profile_image || null;
     }
-  });
-}
+  }
 
 
  async openProfileModal() {

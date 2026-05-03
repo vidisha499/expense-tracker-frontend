@@ -1,130 +1,155 @@
 
-<ion-header class="ion-no-border midnight-header" style="height: calc(75px + var(--ion-safe-area-top));">
-  <ion-toolbar style="--padding-top: calc(15px + var(--ion-safe-area-top));">
+<ion-header class="ion-no-border midnight-header" style="height: calc(65px + var(--ion-safe-area-top));">
+  <ion-toolbar style="--padding-top: calc(10px + var(--ion-safe-area-top));">
     <ion-buttons slot="start">
       <ion-button (click)="close()" color="light">
         <ion-icon name="chevron-back" slot="icon-only" style="font-size: 1.5rem;"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title style="font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px;">{{ selectedType === 'expense' ? 'Add Expense' : 'Add Income' }}</ion-title>
+    <ion-title style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;">{{ selectedType === 'expense' ? 'Add Expense' : 'Add Income' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="light" (click)="onOk()" [disabled]="expenseForm.invalid">
+        <ion-icon name="checkmark-done" slot="icon-only" style="font-size: 1.5rem; color: #10b981;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content style="--background: #020617;">
-  <div class="midnight-hero-bg" style="height: 100px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
-    <div class="glow-orb" style="width: 100px; height: 100px; top: -30px; right: -30px; opacity: 0.1; background: var(--primary-purple);"></div>
+  <!-- Cyber Background Orbs -->
+  <div class="midnight-hero-bg" style="height: 300px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
+    <div class="glow-orb" style="width: 250px; height: 250px; top: -80px; right: -80px; opacity: 0.15; background: var(--primary-purple);"></div>
+    <div class="glow-orb" style="width: 200px; height: 200px; bottom: 0; left: -50px; opacity: 0.1; background: #06b6d4;"></div>
   </div>
 
-  <form [formGroup]="expenseForm" class="fade-up" style="position: relative; z-index: 1; padding: 12px;">
+  <form [formGroup]="expenseForm" class="fade-up" style="position: relative; z-index: 1; padding: 15px;">
     
-    <!-- Type Selection -->
-    <div class="glass-card" style="margin-top: 15px; margin-bottom: 20px; padding: 6px;">
-      <ion-segment [value]="selectedType" (ionChange)="onTypeChange($event)" mode="ios" style="--background: transparent; height: 38px;">
-        <ion-segment-button value="expense" style="--indicator-color: #f43f5e; --color: #94a3b8; --color-checked: white;">
-          <ion-label style="font-weight: 700; font-size: 0.8rem;">Expense</ion-label>
+    <!-- Premium Type Selection -->
+    <div class="glass-card type-switcher" style="margin-top: 10px; margin-bottom: 25px; padding: 5px; background: rgba(255,255,255,0.03); border-radius: 18px; border: 1px solid rgba(255,255,255,0.05);">
+      <ion-segment [value]="selectedType" (ionChange)="onTypeChange($event)" mode="ios" style="--background: transparent; height: 44px;">
+        <ion-segment-button value="expense" class="expense-seg">
+          <ion-label style="font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px;">EXPENSE</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="income" style="--indicator-color: #10b981; --color: #94a3b8; --color-checked: white;">
-          <ion-label style="font-weight: 700; font-size: 0.8rem;">Income</ion-label>
+        <ion-segment-button value="income" class="income-seg">
+          <ion-label style="font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px;">INCOME</ion-label>
         </ion-segment-button>
       </ion-segment>
     </div>
 
-    <!-- Details Section -->
-    <div class="glass-card" style="margin-bottom: 15px; padding: 18px 14px;">
-      <h3 style="color: #94a3b8; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 15px 5px;">Details</h3>
+    <!-- Core Details -->
+    <div class="glass-card form-section" style="margin-bottom: 20px; padding: 20px 15px; background: rgba(15, 23, 42, 0.6); border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 18px; padding-left: 5px;">
+        <ion-icon name="create-outline" style="color: #a78bfa; font-size: 1.1rem;"></ion-icon>
+        <h3 style="color: white; font-size: 0.9rem; font-weight: 800; margin: 0;">Basic Info</h3>
+      </div>
       
-      <ion-item lines="none" class="cyber-input" style="margin-bottom: 12px;">
-        <ion-label position="stacked" style="font-size: 0.65rem !important;">{{ selectedType === 'expense' ? 'Expense Name' : 'Income Name' }} *</ion-label>
-        <ion-input formControlName="expenseName" style="font-size: 0.9rem !important;"></ion-input>
-      </ion-item>
+      <div class="cyber-input-group">
+        <ion-item lines="none" class="cyber-input">
+          <ion-label position="stacked">{{ selectedType === 'expense' ? 'Expense Name' : 'Income Name' }} *</ion-label>
+          <ion-input formControlName="expenseName" placeholder="e.g. Dinner, Rent..."></ion-input>
+        </ion-item>
 
-      <ion-item lines="none" class="cyber-input" style="margin-bottom: 12px;">
-        <ion-label position="stacked" style="font-size: 0.65rem !important;">{{ selectedType === 'expense' ? 'Expense Head' : 'Income Head' }} *</ion-label>
-        <ion-input formControlName="expenseHead" style="font-size: 0.9rem !important;"></ion-input>
-      </ion-item>
+        <ion-item lines="none" class="cyber-input">
+          <ion-label position="stacked">Expense Head *</ion-label>
+          <ion-input formControlName="expenseHead" placeholder="Main account, Cash..."></ion-input>
+        </ion-item>
 
-      <ion-item lines="none" class="cyber-input" style="margin-bottom: 0;">
-        <ion-label position="stacked" style="font-size: 0.65rem !important;">{{ selectedType === 'expense' ? 'Expense Done By' : 'Income Done By' }} *</ion-label>
-        <ion-select interface="popover" formControlName="expenseDoneBy" style="font-size: 0.9rem !important;">
-          <ion-select-option value="self">Self</ion-select-option>
-          <ion-select-option value="company">Company</ion-select-option>
-          <ion-select-option value="others">Others</ion-select-option>
-        </ion-select>
-      </ion-item>
+        <ion-item lines="none" class="cyber-input">
+          <ion-label position="stacked">Done By *</ion-label>
+          <ion-select interface="popover" formControlName="expenseDoneBy">
+            <ion-select-option value="self">Myself</ion-select-option>
+            <ion-select-option value="company">Company</ion-select-option>
+            <ion-select-option value="others">Someone Else</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-      <ion-item lines="none" class="cyber-input" *ngIf="expenseForm.value.expenseDoneBy === 'others'" style="margin-top: 12px;">
-        <ion-label position="stacked" style="font-size: 0.65rem !important;">Specify Person *</ion-label>
-        <ion-input formControlName="otherPerson" style="font-size: 0.9rem !important;"></ion-input>
-      </ion-item>
+        <ion-item lines="none" class="cyber-input fade-in" *ngIf="expenseForm.value.expenseDoneBy === 'others'">
+          <ion-label position="stacked">Person Name *</ion-label>
+          <ion-input formControlName="otherPerson"></ion-input>
+        </ion-item>
+      </div>
     </div>
 
     <!-- Category & Remarks -->
-    <div class="glass-card" style="margin-bottom: 15px; padding: 18px 14px;">
-      <ion-item lines="none" class="cyber-input" (click)="openCategoryPage()" detail="true" button="true" style="margin-bottom: 12px;">
-        <ion-label position="stacked" style="font-size: 0.65rem !important;">Category *</ion-label>
-        <ion-input formControlName="category" [readonly]="true" style="font-size: 0.9rem !important;"></ion-input>
+    <div class="glass-card form-section" style="margin-bottom: 20px; padding: 20px 15px; background: rgba(15, 23, 42, 0.6); border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);">
+      <ion-item lines="none" class="cyber-input clickable" (click)="openCategoryPage()" detail="false" button="true">
+        <ion-icon name="shapes-outline" slot="start" style="color: #06b6d4; font-size: 1.2rem; margin-right: 15px;"></ion-icon>
+        <ion-label>
+          <p style="color: #94a3b8; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Category *</p>
+          <h2 style="color: white; font-weight: 700; margin: 0;">{{ expenseForm.value.category || 'Select Category' }}</h2>
+        </ion-label>
+        <ion-icon name="chevron-forward" slot="end" style="color: #334155; font-size: 1rem;"></ion-icon>
       </ion-item>
 
-      <ion-item lines="none" class="cyber-input" style="margin-bottom: 0;">
-        <ion-label position="stacked" style="font-size: 0.65rem !important;">Remark (Optional)</ion-label>
-        <ion-textarea formControlName="remark" [autoGrow]="true" rows="2" style="font-size: 0.9rem !important;"></ion-textarea>
+      <div style="height: 1px; background: rgba(255,255,255,0.05); margin: 15px 10px;"></div>
+
+      <ion-item lines="none" class="cyber-input">
+        <ion-label position="stacked">Remarks (Optional)</ion-label>
+        <ion-textarea formControlName="remark" [autoGrow]="true" rows="1" placeholder="Add a note..."></ion-textarea>
       </ion-item>
     </div>
 
     <!-- Date & Amount -->
-    <div class="glass-card" style="margin-bottom: 15px; padding: 18px 14px;">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding: 0 5px;">
-        <span style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Date *</span>
-        <ion-datetime-button datetime="expenseDate"></ion-datetime-button>
+    <div class="glass-card form-section amount-section" style="margin-bottom: 20px; padding: 25px 20px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1)); border-radius: 28px; border: 1px solid rgba(139, 92, 246, 0.2);">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <ion-icon name="calendar-outline" style="color: #10b981; font-size: 1.2rem;"></ion-icon>
+          <span style="color: white; font-weight: 800; font-size: 0.9rem;">Transaction Date</span>
+        </div>
+        <ion-datetime-button datetime="expenseDate" class="premium-date-btn"></ion-datetime-button>
       </div>
+      
       <ion-modal keep-contents-mounted="true">
         <ng-template>
-          <ion-datetime id="expenseDate" presentation="date" formControlName="date" [max]="today" style="--background: #0f172a;"></ion-datetime>
+          <ion-datetime id="expenseDate" presentation="date" formControlName="date" [max]="today" style="--background: #0f172a; --color: white;"></ion-datetime>
         </ng-template>
       </ion-modal>
 
-      <ion-item lines="none" class="cyber-input">
-        <ion-label position="stacked" style="font-size: 0.65rem !important;">Amount *</ion-label>
-        <ion-input type="number" formControlName="amount" style="font-size: 1.4rem !important; font-weight: 800; color: white;"></ion-input>
-      </ion-item>
-    </div>
-
-    <!-- Bills / Attachments -->
-    <div class="glass-card" style="margin-bottom: 15px; padding: 18px 14px;">
-      <h3 style="color: #94a3b8; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 15px 5px;">Bills (Optional)</h3>
-      <div style="display: flex; flex-wrap: wrap; gap: 10px; padding: 2px;">
-        <div *ngFor="let img of images; let i = index" style="position: relative; width: 65px; height: 65px;">
-          <ion-icon name="close-circle" 
-                    style="position: absolute; top: -8px; right: -8px; color: #f43f5e; font-size: 20px; z-index: 10; background: white; border-radius: 50%;" 
-                    (click)="removeImage(i)"></ion-icon>
-          <img [src]="img" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);" />
-        </div>
-        <div *ngIf="images.length < 5" (click)="uploadImage()" 
-             style="width: 65px; height: 65px; border: 1px dashed rgba(99, 102, 241, 0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary-purple); font-size: 24px; background: rgba(99, 102, 241, 0.05);">
-          <ion-icon name="add"></ion-icon>
-        </div>
+      <div class="amount-input-wrapper" style="margin-top: 10px; position: relative;">
+        <span style="position: absolute; left: 0; bottom: 12px; font-size: 1.8rem; font-weight: 800; color: #a78bfa;">₹</span>
+        <ion-item lines="none" style="--background: transparent; --padding-start: 25px;">
+          <ion-input type="number" formControlName="amount" placeholder="0.00" style="font-size: 2.2rem !important; font-weight: 900; color: white;"></ion-input>
+        </ion-item>
+        <div style="height: 2px; background: linear-gradient(to right, #8b5cf6, transparent); width: 100%; margin-top: -5px; opacity: 0.5;"></div>
       </div>
     </div>
 
-    <!-- Payment Mode -->
-    <div class="glass-card" style="margin-bottom: 25px; padding: 18px 14px;">
-      <ion-item lines="none" class="cyber-input" style="margin-bottom: 0;">
-        <ion-label position="stacked" style="font-size: 0.65rem !important;">Payment Mode *</ion-label>
-        <ion-select formControlName="paymentMode" interface="popover" style="font-size: 0.9rem !important;">
+    <!-- Payment & Attachments -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+      <div class="glass-card" style="padding: 15px; background: rgba(15, 23, 42, 0.6); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.05);">
+        <ion-label style="color: #94a3b8; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 8px;">Payment</ion-label>
+        <ion-select formControlName="paymentMode" interface="popover" style="--padding-start: 0; color: white; font-weight: 700; font-size: 0.9rem;">
           <ion-select-option value="cash">Cash</ion-select-option>
           <ion-select-option value="online">Online</ion-select-option>
         </ion-select>
-      </ion-item>
+      </div>
+
+      <div class="glass-card" (click)="uploadImage()" style="padding: 15px; background: rgba(99, 102, 241, 0.05); border-radius: 24px; border: 1px dashed rgba(99, 102, 241, 0.2); display: flex; align-items: center; justify-content: center; gap: 8px; color: #a78bfa;">
+        <ion-icon name="camera-outline" style="font-size: 1.2rem;"></ion-icon>
+        <span style="font-weight: 700; font-size: 0.85rem;">{{ images.length > 0 ? images.length + ' Bills' : 'Add Bill' }}</span>
+      </div>
     </div>
 
-    <!-- Action Buttons -->
-    <div style="padding: 0 5px 50px;">
-      <ion-button expand="block" class="electric-btn" (click)="onOk()" [disabled]="expenseForm.invalid" style="height: 50px; font-size: 1rem;">
-        Save
+    <!-- Bill Preview (If any) -->
+    <div class="fade-in" *ngIf="images.length > 0" style="display: flex; overflow-x: auto; gap: 12px; padding: 5px; margin-bottom: 25px;">
+      <div *ngFor="let img of images; let i = index" style="position: relative; flex: 0 0 70px; height: 70px;">
+        <div (click)="removeImage(i)" style="position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; background: #f43f5e; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3);">
+          <ion-icon name="close" style="color: white; font-size: 14px;"></ion-icon>
+        </div>
+        <img [src]="img" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);" />
+      </div>
+    </div>
+
+    <!-- Final Actions -->
+    <div class="action-footer" style="padding-bottom: 50px;">
+      <ion-button expand="block" class="electric-btn" (click)="onOk()" [disabled]="expenseForm.invalid" style="--height: 58px; --border-radius: 20px; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.5px; margin-bottom: 12px;">
+        <ion-icon name="sparkles" slot="start" style="margin-right: 10px; font-size: 1.2rem;"></ion-icon>
+        SAVE TRANSACTION
       </ion-button>
-      <ion-button expand="block" fill="clear" (click)="onCancel()" style="--color: #94a3b8; font-weight: 700; margin-top: 10px; font-size: 0.9rem;">
-        Cancel
+      <ion-button expand="block" fill="clear" (click)="onCancel()" style="--color: #64748b; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px;">
+        DISCARD
       </ion-button>
     </div>
+
   </form>
 </ion-content>
