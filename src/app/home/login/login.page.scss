@@ -1,134 +1,348 @@
-.custom-background {
-  --background: #f8f9fa; // Light gray background
+// /* Force dark text for visibility in Light Mode */
+// .glass-card {
+//   background: #ffffff !important; /* Makes the input area solid white */
+  
+//   ion-label {
+//     color: #444444 !important; /* Dark grey labels */
+//     --color: #444444 !important;
+//   }
+
+//   ion-input {
+//     color: #000000 !important; /* Black typing text */
+//     --color: #000000 !important;
+//   }
+// }
+
+// /* If you want the container box to be dark (like in your screenshot) 
+//    but the internal inputs to be readable: */
+// .login-container-box {
+//     background: #1a1a1a; /* The dark outer card from your image */
+//     padding: 20px;
+//     border-radius: 20px;
+// }
+// .custom-background {
+//   --background: #f8f9fa; // Light gray background
+// }
+// /* Target the specific classes from your HTML */
+// .custom-input {
+//   --background: #ffffff !important; /* Force white background for the input box */
+//   --border-radius: 12px;
+//   margin-bottom: 10px;
+//   border: 1px solid #e0e0e0; /* Add a light border so it's visible on white */
+
+//   ion-label {
+//     color: #444444 !important; /* Dark grey label */
+//     font-weight: 600;
+//     --color: #444444 !important;
+//   }
+
+//   ion-input {
+//     --color: #000000 !important; /* Black text while typing */
+//     color: #000000 !important;
+//     font-weight: 500;
+//   }
+// }
+
+// /* Ensure the card itself doesn't stay pitch black */
+// .login-card {
+//   background: #1a1a1a !important; /* Keeping the dark card look you have in screenshots */
+//   border-radius: 24px;
+//   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+// }
+
+// .signup-text {
+//   color: #666666 !important; /* Darker grey for the bottom link */
+// }
+
+// .login-container {
+//   max-width: 450px;
+//   margin: 0 auto;
+//   padding-top: 10vh;
+// }
+
+// .header-section {
+//   margin-bottom: 30px;
+
+//   .logo-circle {
+//     background: #fff;
+//     width: 70px;
+//     height: 70px;
+//     border-radius: 50%;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     margin: 0 auto 15px;
+//     font-size: 2.5rem;
+//     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+//   }
+
+//   h1 {
+//     font-weight: 700;
+//     color: #222;
+//     margin-bottom: 5px;
+//     font-size: 1.8rem;
+//   }
+
+//   p {
+//     color: #666;
+//     margin-top: 0;
+//   }
+// }
+
+// .login-card {
+//   border-radius: 20px;
+//   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+//   margin: 0;
+// }
+
+// .custom-input {
+//   --background: #f4f5f8;
+//   --border-radius: 12px;
+//   --padding-start: 16px;
+//   --highlight-height: 0;
+//   margin-bottom: 4px;
+  
+//   ion-label {
+//     font-weight: 600;
+//     color: #444 !important;
+//     margin-bottom: 8px !important;
+//   }
+// }
+
+// .error-msg {
+//   color: var(--ion-color-danger);
+//   padding-left: 5px;
+//   font-weight: 500;
+// }
+
+// .login-btn {
+//   --border-radius: 12px;
+//   height: 50px;
+//   margin-top: 25px;
+//   font-weight: 600;
+//   box-shadow: 0 4px 12px rgba(var(--ion-color-danger-rgb), 0.3);
+  
+// }
+
+// .or-divider {
+//   display: flex;
+//   align-items: center;
+//   text-align: center;
+//   margin: 20px 0;
+//   color: #999;
+//   font-size: 0.9rem;
+
+//   &::before, &::after {
+//     content: '';
+//     flex: 1;
+//     border-bottom: 1px solid #eee;
+//   }
+
+//   span {
+//     padding: 0 15px;
+//   }
+// }
+
+// .google-btn {
+//   --border-radius: 12px;
+//   --border-width: 1px;
+//   height: 50px;
+//   font-weight: 500;
+// }
+
+// .signup-text {
+//   margin-top: 30px;
+//   color: #666;
+//   .highlight {
+//     color: var(--ion-color-danger);
+//     font-weight: 700;
+//     cursor: pointer;
+//   }
+// }
+
+// .custom-input {
+//   --background: #f4f5f8;
+//   --border-radius: 12px;
+//   --padding-start: 16px;
+//   margin-bottom: 10px;
+
+  
+//   .eye-button {
+//     --padding-end: 8px;
+//     --padding-start: 8px;
+//     height: 100%;
+//     margin: 0;
+//     --ripple-color: transparent; 
+    
+//     ion-icon {
+//       font-size: 1.4rem;
+//     }
+//   }
+// }
+
+
+// ion-input {
+//   --padding-end: 10px;
+// }
+
+/* Keep ONLY this in login.page.scss */
+.midnight-auth-wrapper {
+  min-height: 100vh;
+  background: #020617;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* Add safe area padding to prevent clashing with status bar and home indicator */
+  padding: calc(40px + var(--ion-safe-area-top)) 24px calc(100px + var(--ion-safe-area-bottom));
+  position: relative;
+  overflow-y: auto; /* Allow scrolling if screen is too small */
 }
 
-.login-container {
-  max-width: 450px;
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.4;
+  animation: pulse 10s infinite alternate;
+}
+
+.orb-1 {
+  width: 300px;
+  height: 300px;
+  background: var(--primary-purple);
+  top: -100px;
+  right: -50px;
+}
+
+.orb-2 {
+  width: 250px;
+  height: 250px;
+  background: var(--accent-pink);
+  bottom: -50px;
+  left: -50px;
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  width: 200px;
+  height: 200px;
+  background: var(--secondary-purple);
+  top: 40%;
+  right: 10%;
+  animation-delay: -3s;
+}
+
+.auth-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
   margin: 0 auto;
-  padding-top: 10vh;
 }
 
 .header-section {
-  margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 20px;
 
-  .logo-circle {
-    background: #fff;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
+  .logo-badge {
+    width: 100px;
+    height: 100px;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(248, 248, 250, 0.3);
+    border-radius: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 15px;
-    font-size: 2.5rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  }
-
-  h1 {
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 5px;
-    font-size: 1.8rem;
-  }
-
-  p {
-    color: #666;
-    margin-top: 0;
-  }
-}
-
-.login-card {
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  margin: 0;
-}
-
-.custom-input {
-  --background: #f4f5f8;
-  --border-radius: 12px;
-  --padding-start: 16px;
-  --highlight-height: 0;
-  margin-bottom: 4px;
-  
-  ion-label {
-    font-weight: 600;
-    color: #444 !important;
-    margin-bottom: 8px !important;
-  }
-}
-
-.error-msg {
-  color: var(--ion-color-danger);
-  padding-left: 5px;
-  font-weight: 500;
-}
-
-.login-btn {
-  --border-radius: 12px;
-  height: 50px;
-  margin-top: 25px;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(var(--ion-color-danger-rgb), 0.3);
-  
-}
-
-.or-divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 20px 0;
-  color: #999;
-  font-size: 0.9rem;
-
-  &::before, &::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #eee;
-  }
-
-  span {
-    padding: 0 15px;
-  }
-}
-
-.google-btn {
-  --border-radius: 12px;
-  --border-width: 1px;
-  height: 50px;
-  font-weight: 500;
-}
-
-.signup-text {
-  margin-top: 30px;
-  color: #666;
-  .highlight {
-    color: var(--ion-color-danger);
-    font-weight: 700;
-    cursor: pointer;
-  }
-}
-
-.custom-input {
-  --background: #f4f5f8;
-  --border-radius: 12px;
-  --padding-start: 16px;
-  margin-bottom: 10px;
-
-  
-  .eye-button {
-    --padding-end: 8px;
-    --padding-start: 8px;
-    height: 100%;
-    margin: 0;
-    --ripple-color: transparent; 
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(99, 102, 241, 0.1);
     
     ion-icon {
-      font-size: 1.4rem;
+      font-size: 5.2rem !important;
+      color: #ffffff !important; /* Pure White */
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
+      -webkit-text-fill-color: initial; /* Reset the gradient from before */
+    }
+  }
+
+  .intro-text {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin: 0;
+    opacity: 0.8;
+  }
+
+  .welcome-text {
+    font-size: 3.5rem !important; /* Adjusted for Pacifico thickness */
+    font-weight: 100 !important;
+    margin: -5px 0 0; 
+    line-height: 1.1;
+    &.cursive {
+      font-family: 'Pacifico', cursive !important;
+      background: linear-gradient(to bottom, #ffffff 40%, var(--primary-purple) 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      padding-bottom: 5px;
+      letter-spacing: 1px;
+    }
+  }
+
+  .subtitle-text {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 5px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+}
+
+.auth-card {
+  padding: 40px 30px;
+  
+  .card-header {
+    margin-bottom: 30px;
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin: 0;
+    }
+    .accent-line {
+      width: 40px;
+      height: 4px;
+      background: var(--primary-purple);
+      border-radius: 2px;
+      margin-top: 10px;
     }
   }
 }
 
+.signup-footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #94a3b8;
+  font-weight: 600;
+  
+  .link {
+    color: var(--primary-purple);
+    font-weight: 800;
+    margin-left: 5px;
+    cursor: pointer;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
 
-ion-input {
-  --padding-end: 10px;
+.eye-btn {
+  --color: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes pulse {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.2) translate(20px, 20px); }
 }

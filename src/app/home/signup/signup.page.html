@@ -1,0 +1,77 @@
+<ion-content class="ion-no-padding">
+  <div class="midnight-auth-wrapper">
+    
+    <!-- Animated background elements -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+
+    <div class="auth-content fade-up">
+      <div class="header-section">
+        <div class="logo-badge">
+          <ion-icon name="person-add"></ion-icon>
+        </div>
+        <h1 class="welcome-text">Join the Elite</h1>
+        <p class="subtitle-text">Elevate your financial management today.</p>
+      </div>
+
+      <div class="glass-card auth-card">
+        <div class="card-header">
+          <h2>Create Account</h2>
+          <div class="accent-line"></div>
+        </div>
+
+        <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+          
+          <ion-row>
+            <ion-col size="6" style="padding-left: 0;">
+              <ion-item lines="none" class="cyber-input">
+                <ion-label position="stacked">First Name</ion-label>
+                <ion-input type="text" placeholder="John" formControlName="firstName"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6" style="padding-right: 0;">
+              <ion-item lines="none" class="cyber-input">
+                <ion-label position="stacked">Last Name</ion-label>
+                <ion-input type="text" placeholder="Doe" formControlName="lastName"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-item lines="none" class="cyber-input">
+            <ion-label position="stacked">Email Address</ion-label>
+            <ion-input type="email" placeholder="name@domain.com" formControlName="email"
+                       autocapitalize="off" autocorrect="off" spellcheck="false"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="cyber-input">
+            <ion-label position="stacked">Mobile Number</ion-label>
+            <ion-input type="tel" placeholder="10-digit number" formControlName="mobileNumber"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="cyber-input">
+            <ion-label position="stacked">Security Key</ion-label>
+            <ion-input [type]="passwordType" formControlName="password" placeholder="Min 6 chars"></ion-input>
+            <ion-button fill="clear" slot="end" (click)="togglePassword()" class="eye-btn">
+              <ion-icon [name]="passwordIcon"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <ion-item lines="none" class="cyber-input">
+            <ion-label position="stacked">Confirm Security Key</ion-label>
+            <ion-input [type]="passwordType" formControlName="confirmPassword" placeholder="Repeat Security Key"></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" type="submit" class="electric-btn">
+            Create Account
+          </ion-button>
+
+        </form>
+      </div>
+
+      <p class="signup-footer">
+        Already registered? <span class="link" routerLink="/login">Secure Login</span>
+      </p>
+    </div>
+  </div>
+</ion-content>

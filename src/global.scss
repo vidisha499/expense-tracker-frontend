@@ -1,82 +1,350 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
-
-/* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-/* Fix ion-alert radio visibility in dark theme */
-/* Ensure radio labels are visible in ion-alert */
-.alert-radio-label {
-  display: block !important;
-  color: #000 !important;
-  font-size: 16px;
-  padding-left: 12px;
+.midnight-toast {
+  --background: rgba(15, 23, 42, 0.9);
+  --color: #fff;
+  --button-color: var(--primary-purple);
+  --border-radius: 12px;
+  --box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
 }
-
-/* Align radio + text nicely */
-.alert-radio {
-  align-items: center;
-}
-
-/* Increase spacing */
-.alert-radio-group {
-  padding-top: 10px;
-}
-
-/* Add this to global.scss if you want the calendar buttons to match */
-ion-datetime-button {
-  --background: #ffffff;
-  --color: #7b5cff; /* Tertiary color */
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 2px;
-}
-
-
-/* Example using Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
 :root {
-  /* This targets the entire Ionic framework's font system */
-  --ion-font-family: 'Inter', sans-serif;
+  --ion-font-family: 'Plus Jakarta Sans', sans-serif !important;
+  --primary-purple: #6366f1;
+  --secondary-purple: #8b5cf6;
+  --accent-pink: #d946ef;
+  --bg-midnight: #0f172a;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --premium-gradient: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+}
+
+* {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.95rem;
 }
 
 body {
-  /* Fallback for standard HTML elements */
-  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-midnight);
+  color: white;
 }
-* {
-  font-family: 'Inter', sans-serif !important;
+
+/* Premium Glassmorphism Card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Electric Button */
+ion-button.electric-btn {
+  --border-radius: 18px;
+  --background: var(--premium-gradient);
+  --box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+  height: 52px;
+  font-weight: 700;
+  text-transform: none;
+  font-size: 0.95rem;
+  letter-spacing: -0.2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+/* Cyber Input - FIXED Visibility */
+.cyber-input {
+  --background: rgba(255, 255, 255, 0.03) !important;
+  --item-background: transparent !important; 
+  --border-radius: 16px;
+  --padding-start: 18px;
+  --padding-end: 18px;
+  --highlight-height: 0;
+  margin-bottom: 15px;
+  border: 1px solid var(--glass-border) !important;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.03) !important; 
+
+  &.ion-focused {
+    border-color: var(--primary-purple) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  ion-label {
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 0.65rem !important;
+    margin-bottom: 5px !important;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  ion-input, ion-select, ion-textarea, ion-text {
+    font-weight: 600;
+    font-size: 0.9rem !important;
+    color: #ffffff !important;
+    --color: #ffffff !important;
+  }
+}
+
+/* Force dark header across all components */
+.midnight-header {
+  --background: #0f172a !important;
+  --color: white !important;
+  background: #0f172a !important;
+  
+  ion-toolbar {
+    --background: #0f172a !important;
+    --border-width: 0;
+    --color: white !important;
+    background: #0f172a !important;
+  }
+  
+  ion-title {
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.5px;
+    color: white !important;
+    --color: white !important;
+  }
+
+  ion-back-button, ion-menu-button {
+    --color: white !important;
+    color: white !important;
+  }
+}
+
+/* Fix for Popovers and Overlays */
+ion-popover, ion-modal, ion-select-popover, ion-menu {
+  --background: #0f172a !important;
+  --color: white !important;
+  
+  ion-content {
+    --background: #0f172a !important;
+  }
+
+  ion-item {
+    --background: #0f172a !important;
+    --color: white !important;
+    --border-color: rgba(255, 255, 255, 0.05) !important;
+  }
+}
+
+/* Custom Datetime Styles for Midnight Theme */
+ion-datetime {
+  --background: #0f172a !important;
+  --color: white !important;
+  color: white !important;
+  background: #0f172a !important;
+  border-radius: 20px;
+}
+
+ion-datetime::part(calendar-day) {
+  color: white !important;
+}
+
+ion-datetime::part(calendar-day-active) {
+  background: var(--primary-purple) !important;
+  color: white !important;
+}
+
+ion-datetime::part(month-year-button) {
+  color: white !important;
+}
+
+ion-datetime::part(day-of-week) {
+  color: #94a3b8 !important;
+}
+
+ion-datetime-button {
+  --background: rgba(255, 255, 255, 0.05) !important;
+  --color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+/* Animations */
+.fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Midnight Menu Styles */
+.midnight-menu {
+  --background: #0f172a !important;
+  
+  .menu-header {
+    height: 180px;
+    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    
+    .header-glow {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: var(--primary-purple);
+      filter: blur(60px);
+      top: -50px;
+      left: -50px;
+      opacity: 0.3;
+    }
+
+    .user-info {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      .avatar-circle {
+        width: 54px;
+        height: 54px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--glass-border);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: var(--primary-purple);
+      }
+
+      .user-text {
+        h2 {
+          color: white;
+          margin: 0;
+          font-size: 1.1rem;
+          font-weight: 800;
+        }
+        p {
+          color: #94a3b8;
+          margin: 4px 0 0;
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .menu-list {
+    background: #0f172a !important; /* Force dark background */
+    padding: 20px 15px;
+
+    .menu-item {
+      --background: #0f172a !important;
+      --color: #94a3b8;
+      --border-radius: 18px;
+      --padding-start: 12px;
+      margin-bottom: 8px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+
+      &.item-has-focus, &:hover {
+        --background: rgba(255, 255, 255, 0.03) !important;
+        --color: white;
+        
+        .icon-box {
+          background: var(--primary-purple);
+          color: white;
+          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+      }
+
+      .icon-box {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 16px;
+        color: var(--primary-purple);
+        transition: all 0.2s ease;
+      }
+    }
+  }
+
+  .menu-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    border-top: 1px solid var(--glass-border);
+    background: #0f172a !important;
+
+    .logout-btn {
+      --color: #f43f5e;
+      font-weight: 700;
+      text-transform: none;
+    }
+  }
+}
+
+/* Midnight Tab Bar */
+ion-tab-bar {
+  --background: #0f172a;
+  --border-width: 1px 0 0 0;
+  --border-color: rgba(255, 255, 255, 0.05);
+  background: #0f172a;
+  height: 70px;
+  padding-bottom: 5px;
+  
+  ion-tab-button {
+    --color: #94a3b8;
+    --color-selected: white;
+    --background: transparent;
+    
+    ion-icon {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+      transition: all 0.2s ease;
+    }
+    
+    ion-label {
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    &.tab-selected {
+      ion-icon {
+        color: var(--primary-purple);
+        filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5));
+        transform: translateY(-2px);
+      }
+      ion-label {
+        color: white;
+      }
+    }
+  }
 }

@@ -1,59 +1,53 @@
-<ion-content class="ion-padding custom-background">
-  <div class="login-container">
+<ion-content class="ion-no-padding">
+  <div class="midnight-auth-wrapper">
     
-    <div class="header-section ion-text-center">
-      <div class="logo-circle">
-        <ion-icon name="wallet-outline" color="danger"></ion-icon>
-      </div>
-      <h1>Welcome Back!</h1>
-      <p>Manage your expenses and stay on budget.</p>
-    </div>
+    <!-- Animated background elements -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
 
-    <ion-card class="login-card">
-      <ion-card-content>
+    <div class="auth-content fade-up">
+      <div class="header-section">
+        <div class="logo-badge">
+          <ion-icon name="wallet-outline"></ion-icon>
+        </div>
+        <!-- <p class="intro-text">Introducing</p> -->
+        <h1 class="welcome-text cursive">Welcome</h1>
+        <p class="subtitle-text">Your financial journey starts here.</p>
+      </div>
+
+      <div class="glass-card auth-card">
+        <div class="card-header">
+          <h2>Sign In</h2>
+          <div class="accent-line"></div>
+        </div>
+
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
           
-          <ion-item lines="none" class="custom-input">
-            <ion-label position="stacked">Email</ion-label>
-            <ion-input type="email" placeholder="email@example.com" formControlName="email"></ion-input>
+          <ion-item lines="none" class="cyber-input">
+            <ion-label position="stacked">Email Address</ion-label>
+            <ion-input type="email" placeholder="name@domain.com" formControlName="email" 
+                       autocapitalize="off" autocorrect="off" spellcheck="false"></ion-input>
           </ion-item>
-          <div class="error-msg" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-            <small>Please enter a valid email address</small>
-          </div>
 
-          <ion-item lines="none" class="custom-input ion-margin-top">
-  <ion-label position="stacked">Password</ion-label>
-  
-  <ion-input 
-    [type]="passwordType" 
-    formControlName="password" 
-    placeholder="Enter your password">
-    
-    <ion-button 
-      fill="clear" 
-      slot="end" 
-      (click)="togglePassword()" 
-      class="eye-button">
-      <ion-icon [name]="passwordIcon" color="medium"></ion-icon>
-    </ion-button>
-    
-  </ion-input>
-</ion-item>
-          <div class="error-msg" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-            <small>Password must be at least 6 characters</small>
-          </div>
+          <ion-item lines="none" class="cyber-input">
+            <ion-label position="stacked">Security Key</ion-label>
+            <ion-input [type]="passwordType" formControlName="password" placeholder="••••••••"></ion-input>
+            <ion-button fill="clear" slot="end" (click)="togglePassword()" class="eye-btn">
+              <ion-icon [name]="passwordIcon"></ion-icon>
+            </ion-button>
+          </ion-item>
 
-          <ion-button expand="block" color="tertiary"type="submit" class="login-btn ion-margin-top" [disabled]="loginForm.invalid">
+          <ion-button expand="block" type="submit" class="electric-btn" [disabled]="loginForm.invalid">
             Login
           </ion-button>
 
-       
         </form>
-      </ion-card-content>
-    </ion-card>
+      </div>
 
-    <p class="ion-text-center signup-text">
-      Don't have an account? <span class="highlight">Sign Up</span>
-    </p>
+      <p class="signup-footer">
+        First time here? <span class="link" routerLink="/signup">Create Account</span>
+      </p>
+    </div>
   </div>
 </ion-content>

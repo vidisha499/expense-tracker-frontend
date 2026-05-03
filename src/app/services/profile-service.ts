@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ProfileService {
  
-private API_URL = environment.apiUrl + '/api/profile';
+private API_URL = environment.apiUrl + '/profile';
 
    
 

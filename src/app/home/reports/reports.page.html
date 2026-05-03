@@ -1,19 +1,25 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar style="--background: #7b5cff"> 
+
+<ion-header class="ion-no-border midnight-header">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" color="white"></ion-back-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title style="color: #ffffff">Generate Reports</ion-title>
+    <ion-title>Generate Reports</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content style="--background: #f3efff">
-  <div class="ion-padding">
-    <div style="background: white; border-radius: 24px; padding: 15px; box-shadow: 0 4px 12px rgba(123, 92, 255, 0.08);">
+<ion-content style="--background: #020617;">
+  <div class="midnight-hero-bg" style="height: 200px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
+    <div class="glow-orb" style="width: 200px; height: 200px; top: -50px; right: -50px; opacity: 0.1; background: var(--primary-purple);"></div>
+  </div>
+
+  <div class="ion-padding fade-up" style="position: relative; z-index: 1;">
+    
+    <div class="glass-card" style="padding: 25px 15px; margin-bottom: 30px;">
       
-      <ion-item lines="full" style="--background: transparent; margin-bottom: 10px;">
-        <ion-label color="medium">Report Type</ion-label>
-        <ion-select [(ngModel)]="reportType" interface="popover" color="tertiary">
+      <ion-item lines="none" class="cyber-input">
+        <ion-label position="stacked">Report Type</ion-label>
+        <ion-select [(ngModel)]="reportType" interface="popover">
           <ion-select-option value="all">All Transactions</ion-select-option>
           <ion-select-option value="expense">Expense Report</ion-select-option>
           <ion-select-option value="income">Income Report</ion-select-option>
@@ -21,9 +27,9 @@
         </ion-select>
       </ion-item>
 
-      <ion-item lines="full" *ngIf="reportType === 'category'" style="--background: transparent; margin-bottom: 10px;">
-        <ion-label color="medium">Category</ion-label>
-        <ion-select [(ngModel)]="selectedCategory" interface="popover" placeholder="All Categories">
+      <ion-item lines="none" class="cyber-input" *ngIf="reportType === 'category'">
+        <ion-label position="stacked">Category</ion-label>
+        <ion-select [(ngModel)]="selectedCategory" interface="popover">
           <ion-select-option value="">All Categories</ion-select-option>
           <ion-select-option *ngFor="let cat of categories" [value]="cat">
             {{ cat }}
@@ -32,51 +38,41 @@
       </ion-item>
 
       <div style="margin-top: 10px">
-        <ion-item lines="none" id="start-date-trigger" button="true" detail="false" style="--background: transparent; margin-bottom: 5px;">
-          <ion-label>From</ion-label>
-          <ion-text slot="end" class="custom-date-display">
+        <ion-item lines="none" id="start-date-trigger" button="true" class="cyber-input" detail="false" style="margin-bottom: 15px; --padding-bottom: 10px;">
+          <ion-label position="stacked">From</ion-label>
+          <ion-text style="color: white; font-weight: 700; display: block; margin-top: 4px;">
             {{ startDate | date:'mediumDate' }}
           </ion-text>
-          
-          <ion-popover trigger="start-date-trigger" #startPopover [dismissOnSelect]="false">
+          <ion-popover trigger="start-date-trigger" #startPopover>
             <ng-template>
-              <ion-datetime 
-                presentation="date" 
-                [(ngModel)]="startDate" 
-                (ionChange)="startPopover.dismiss()"
-                color="tertiary">
-              </ion-datetime>
+              <ion-datetime presentation="date" [(ngModel)]="startDate" (ionChange)="startPopover.dismiss()" style="--background: #0f172a; --color: white;"></ion-datetime>
             </ng-template>
           </ion-popover>
         </ion-item>
 
-        <ion-item lines="none" id="end-date-trigger" button="true" detail="false" style="--background: transparent; margin-bottom: 5px;">
-          <ion-label>To</ion-label>
-          <ion-text slot="end" class="custom-date-display">
+        <ion-item lines="none" id="end-date-trigger" button="true" class="cyber-input" detail="false" style="--padding-bottom: 10px;">
+          <ion-label position="stacked">To</ion-label>
+          <ion-text style="color: white; font-weight: 700; display: block; margin-top: 4px;">
             {{ endDate | date:'mediumDate' }}
           </ion-text>
-          
-          <ion-popover trigger="end-date-trigger" #endPopover [dismissOnSelect]="false">
+          <ion-popover trigger="end-date-trigger" #endPopover>
             <ng-template>
-              <ion-datetime 
-                presentation="date" 
-                [(ngModel)]="endDate" 
-                (ionChange)="endPopover.dismiss()"
-                color="tertiary">
-              </ion-datetime>
+              <ion-datetime presentation="date" [(ngModel)]="endDate" (ionChange)="endPopover.dismiss()" style="--background: #0f172a; --color: white;"></ion-datetime>
             </ng-template>
           </ion-popover>
         </ion-item>
       </div>
     </div>
 
-    <div style="margin-top: 30px">
-      <ion-button expand="block" mode="ios" (click)="generatePDF()" style="--background: #7b5cff; height: 55px; font-weight: 700">
-        <ion-icon name="document-text-outline" slot="start"></ion-icon> Export as PDF
+    <div style="margin-top: 20px">
+      <ion-button expand="block" class="electric-btn" (click)="generatePDF()" style="margin-bottom: 15px;">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        Export as PDF
       </ion-button>
       
-      <ion-button expand="block" mode="ios" fill="outline" (click)="generateExcel()" style="--color: #7b5cff; --border-color: #7b5cff; height: 55px; margin-top: 15px; font-weight: 700;">
-        <ion-icon name="grid-outline" slot="start"></ion-icon> Export as Excel
+      <ion-button expand="block" fill="outline" (click)="generateExcel()" style="--color: #94a3b8; --border-color: rgba(148, 163, 184, 0.2); font-weight: 700; height: 50px; --border-radius: 18px;">
+        <ion-icon name="grid-outline" slot="start"></ion-icon>
+        Export as Excel
       </ion-button>
     </div>
   </div>

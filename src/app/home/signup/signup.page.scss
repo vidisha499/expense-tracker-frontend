@@ -1,0 +1,140 @@
+.midnight-auth-wrapper {
+  min-height: 100vh;
+  background: #020617;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(40px + var(--ion-safe-area-top)) 20px calc(100px + var(--ion-safe-area-bottom));
+  position: relative;
+  overflow-y: auto;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.4;
+  animation: pulse 10s infinite alternate;
+}
+
+.orb-1 {
+  width: 300px;
+  height: 300px;
+  background: var(--primary-purple);
+  top: -100px;
+  right: -50px;
+}
+
+.orb-2 {
+  width: 250px;
+  height: 250px;
+  background: var(--accent-pink);
+  bottom: -50px;
+  left: -50px;
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  width: 200px;
+  height: 200px;
+  background: var(--secondary-purple);
+  top: 40%;
+  right: 10%;
+  animation-delay: -3s;
+}
+
+.auth-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+
+  .logo-badge {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2.2rem;
+    color: var(--primary-purple);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+  }
+
+  .welcome-text {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+    letter-spacing: -1px;
+    background: linear-gradient(to bottom, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle-text {
+    font-size: 1rem;
+    color: #94a3b8;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+}
+
+.auth-card {
+  padding: 40px 30px;
+  
+  .card-header {
+    margin-bottom: 30px;
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin: 0;
+    }
+    .accent-line {
+      width: 40px;
+      height: 4px;
+      background: var(--primary-purple);
+      border-radius: 2px;
+      margin-top: 10px;
+    }
+  }
+}
+
+.signup-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-bottom: 20px;
+  color: #94a3b8;
+  font-weight: 600;
+  
+  .link {
+    color: var(--primary-purple);
+    font-weight: 800;
+    margin-left: 5px;
+    cursor: pointer;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.eye-btn {
+  --color: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes pulse {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.2) translate(20px, 20px); }
+}

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { DisplayDetailsPage } from './display-details.page';
+import { DisplayDetailsPage, ImagePreviewComponent } from './display-details.page';
 import { DisplayDetailsPageRoutingModule } from './display-details-routing.module';
 
 @NgModule({
@@ -13,6 +13,6 @@ import { DisplayDetailsPageRoutingModule } from './display-details-routing.modul
     IonicModule,
     DisplayDetailsPageRoutingModule
   ],
-  declarations: [DisplayDetailsPage]
+  declarations: [DisplayDetailsPage, ImagePreviewComponent]
 })
 export class DisplayDetailsPageModule {}

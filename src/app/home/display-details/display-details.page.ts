@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExpenseService } from '../../services/expense-service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { FileOpener } from '@capacitor-community/file-opener';
-import { Platform } from '@ionic/angular';
+import { Platform, ModalController, AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-display-details',
@@ -21,8 +21,64 @@ export class DisplayDetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private expenseService: ExpenseService,
-    private platform: Platform
+    private platform: Platform,
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
+    private navCtrl: NavController
   ) {}
+
+  async editExpense() {
+    const { AddExpenseModalPage } = await import('../add-expense-modal/add-expense-modal.page');
+    const modal = await this.modalCtrl.create({
+      component: AddExpenseModalPage,
+      componentProps: {
+        existingExpense: this.expense
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      const isExpense = data.type === 'expense';
+      const updated = {
+        ...this.expense,
+        ...data,
+        amount: isExpense ? -Math.abs(+data.amount) : +data.amount,
+        date: new Date(data.date)
+      };
+      this.expenseService.updateExpense(updated);
+      this.expense = updated; // Update local view
+    }
+  }
+
+  async deleteExpense() {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Record',
+      message: 'Are you sure you want to remove this transaction forever?',
+      cssClass: 'midnight-alert',
+      buttons: [
+        { text: 'Keep It', role: 'cancel' },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            if (this.expense.id) {
+              this.expenseService.deleteExpenseFromDB(this.expense.id);
+              this.navCtrl.back();
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async previewImage(imgUrl: string) {
+    const modal = await this.modalCtrl.create({
+      component: ImagePreviewComponent,
+      componentProps: { imgUrl }
+    });
+    return await modal.present();
+  }
 
   ngOnInit() {
     const indexParam = this.route.snapshot.paramMap.get('index');
@@ -138,4 +194,28 @@ export class DisplayDetailsPage implements OnInit {
       console.error("Report Generation Error:", error);
     }
   }
+}
+
+@Component({
+  template: `
+    <ion-header class="ion-no-border">
+      <ion-toolbar style="--background: #000; --color: #fff;">
+        <ion-title style="font-size: 0.9rem; font-weight: 700;">Bill Preview</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="close()" style="--color: #fff; font-weight: 700;">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content style="--background: #000;">
+      <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 10px;">
+        <img [src]="imgUrl" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px; box-shadow: 0 0 30px rgba(255,255,255,0.1);">
+      </div>
+    </ion-content>
+  `,
+  standalone: false
+})
+export class ImagePreviewComponent {
+  @Input() imgUrl: string = '';
+  constructor(private modalCtrl: ModalController) {}
+  close() { this.modalCtrl.dismiss(); }
 }

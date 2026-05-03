@@ -1,0 +1,105 @@
+
+<ion-header class="ion-no-border midnight-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Security & Privacy</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #020617;">
+  <div class="midnight-hero-bg" style="height: 180px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
+    <div class="glow-orb orb-1" style="width: 200px; height: 200px; top: -50px; right: -50px; opacity: 0.15; background: var(--primary-purple);"></div>
+  </div>
+
+  <div class="security-container fade-up" style="padding: 20px; position: relative; z-index: 1;">
+    
+    <!-- Account Access Section -->
+    <div class="glass-card" style="margin-bottom: 20px; padding: 25px 20px;">
+      <h3 style="color: #94a3b8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 5px;">Login Security</h3>
+      
+      <div style="margin-bottom: 25px;">
+        <ion-item lines="none" class="cyber-input">
+          <ion-label position="stacked">Current Password</ion-label>
+          <ion-input [type]="showOldPassword ? 'text' : 'password'" [(ngModel)]="passwords.oldPassword" placeholder="••••••••"></ion-input>
+          <ion-icon [name]="showOldPassword ? 'eye-off-outline' : 'eye-outline'" 
+                    slot="end" 
+                    (click)="showOldPassword = !showOldPassword" 
+                    style="color: #94a3b8; font-size: 1.2rem; margin-top: 20px; cursor: pointer;"></ion-icon>
+        </ion-item>
+
+        <ion-item lines="none" class="cyber-input">
+          <ion-label position="stacked">New Password</ion-label>
+          <ion-input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="passwords.newPassword" placeholder="Minimum 6 characters"></ion-input>
+          <ion-icon [name]="showNewPassword ? 'eye-off-outline' : 'eye-outline'" 
+                    slot="end" 
+                    (click)="showNewPassword = !showNewPassword" 
+                    style="color: #94a3b8; font-size: 1.2rem; margin-top: 20px; cursor: pointer;"></ion-icon>
+        </ion-item>
+
+        <ion-button expand="block" class="electric-btn" (click)="updatePassword()" [disabled]="!passwords.oldPassword || !passwords.newPassword" style="height: 48px; margin-top: 10px;">
+          Update Credentials
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Advanced Protection Section -->
+    <div class="glass-card" style="margin-bottom: 20px; padding: 25px 20px;">
+      <h3 style="color: #94a3b8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 5px;">Advanced Protection</h3>
+      
+      <ion-list lines="none" style="background: transparent;">
+        <ion-item style="--background: transparent; margin-bottom: 10px;">
+          <div slot="start" style="width: 40px; height: 40px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+            <ion-icon name="shield-half-outline" style="color: var(--primary-purple); font-size: 1.3rem;"></ion-icon>
+          </div>
+          <ion-label>
+            <h2 style="color: white; font-weight: 700; font-size: 1rem;">Two-Factor Auth</h2>
+            <p style="color: #94a3b8; font-size: 0.75rem;">Enhanced verification layer</p>
+          </ion-label>
+          <ion-toggle slot="end" color="primary"></ion-toggle>
+        </ion-item>
+
+        <ion-item style="--background: transparent;">
+          <div slot="start" style="width: 40px; height: 40px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+            <ion-icon name="finger-print-outline" style="color: var(--primary-purple); font-size: 1.3rem;"></ion-icon>
+          </div>
+          <ion-label>
+            <h2 style="color: white; font-weight: 700; font-size: 1rem;">Biometric Login</h2>
+            <p style="color: #94a3b8; font-size: 0.75rem;">Face ID / Fingerprint</p>
+          </ion-label>
+          <ion-toggle slot="end" color="primary" [checked]="true"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <!-- Device Management Section -->
+    <div class="glass-card" style="margin-bottom: 20px; padding: 25px 20px;">
+      <h3 style="color: #94a3b8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 5px;">Active Sessions</h3>
+      
+      <div style="display: flex; align-items: center; padding: 10px 5px;">
+        <ion-icon name="phone-portrait-outline" style="color: #10b981; font-size: 1.8rem; margin-right: 15px;"></ion-icon>
+        <div>
+          <h4 style="color: white; margin: 0; font-weight: 700;">iPhone 15 Pro (Current)</h4>
+          <p style="color: #94a3b8; font-size: 0.7rem; margin: 3px 0 0;">New Delhi, India • Active now</p>
+        </div>
+      </div>
+
+      <ion-button fill="clear" expand="block" style="--color: #94a3b8; font-size: 0.85rem; font-weight: 700; margin-top: 15px;">
+        Log out from all other devices
+      </ion-button>
+    </div>
+
+    <!-- Danger Zone -->
+    <div style="padding: 10px 5px;">
+      <ion-button expand="block" fill="clear" color="danger" (click)="deleteAccount()" style="font-weight: 800; font-size: 0.95rem; text-transform: none;">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        Request Account Deletion
+      </ion-button>
+      <p style="text-align: center; color: #475569; font-size: 0.65rem; margin-top: 10px; font-weight: 600;">
+        Deleting your account is permanent and will erase all transaction history.
+      </p>
+    </div>
+
+  </div>
+</ion-content>

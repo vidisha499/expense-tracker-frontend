@@ -79,7 +79,7 @@ export class ExpenseService {
         expenseName: e.expense_name,
         title: e.title,
         expenseHead: e.category,
-        bills: e.bills,
+        bills: e.bills ? JSON.parse(e.bills) : [],
         amount: e.amount,
         paymentMode: e.payment_mode,
         expenseDoneBy: e.expense_done_by,
@@ -97,7 +97,7 @@ addExpense(expense: Expense) {
   const userId = this.getUserId();
   if (!userId) return;
 
-  this.http.post(this.API_URL, {
+  const payload = {
     user_id: userId,
     expense_name: expense.expenseName,
     amount: expense.amount,
@@ -105,7 +105,29 @@ addExpense(expense: Expense) {
     category: expense.expenseHead,
     expense_date: expense.date.toISOString().split('T')[0],
     payment_mode: expense.paymentMode,
-    remark: expense.remark
+    remark: expense.remark,
+    bills: expense.bills || [] // Explicitly send the array
+  };
+
+  console.log('Sending Expense Payload:', payload);
+  this.http.post(this.API_URL, payload).subscribe({
+    next: () => this.loadExpenses(),
+    error: (err) => console.error('Error adding expense:', err)
+  });
+}
+
+updateExpense(expense: Expense) {
+  if (!expense.id) return;
+  
+  this.http.put(`${this.API_URL}/${expense.id}`, {
+    expense_name: expense.expenseName,
+    amount: expense.amount,
+    expense_done_by: expense.expenseDoneBy,
+    category: expense.expenseHead,
+    expense_date: expense.date instanceof Date ? expense.date.toISOString().split('T')[0] : new Date(expense.date).toISOString().split('T')[0],
+    payment_mode: expense.paymentMode,
+    remark: expense.remark,
+    bills: expense.bills
   }).subscribe(() => this.loadExpenses());
 }
 
@@ -131,7 +153,8 @@ deleteExpenseFromDB(id: number) {
   getExpenseChartData() {
     const categoryMap: { [key: string]: number } = {};
     this.expensesSubject.value.forEach(exp => {
-      const key = exp.title || exp.expenseName || 'Others';
+      // Use expenseName (category) instead of head
+      const key = exp.expenseName || 'Others';
       categoryMap[key] = (categoryMap[key] || 0) + Math.abs(exp.amount);
     });
     return {
@@ -153,11 +176,21 @@ deleteExpenseFromDB(id: number) {
   // }
 
   login(email: string, password: string) {
-  return this.http.post(`${environment.apiUrl}/login`, {
-    email,
-    password
-  });
-}
+    return this.http.post(`${environment.apiUrl}/login`, {
+      email,
+      password
+    });
+  }
+
+  register(firstName: string, lastName: string, email: string, mobileNumber: string, password: string) {
+    return this.http.post(`${environment.apiUrl}/register`, {
+      firstName,
+      lastName,
+      email,
+      mobileNumber,
+      password
+    });
+  }
 
 
   clearData() {

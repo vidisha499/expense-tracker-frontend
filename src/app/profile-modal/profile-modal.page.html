@@ -1,37 +1,56 @@
-<ion-content class="purple-theme">
-  <div class="profile-header-new">
-    <div class="avatar-wrapper">
-      <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </div>
+<ion-header class="ion-no-border midnight-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="exit()" color="light">
+        <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Edit Identity</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #020617;">
+  <div class="midnight-hero-bg" style="height: 200px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
+    <div class="glow-orb orb-1" style="width: 150px; height: 150px; top: -50px; right: -50px; opacity: 0.2; background: var(--primary-purple);"></div>
   </div>
 
-  <div class="glass-card">
-    <ion-list lines="none">
-      <ion-item class="aesthetic-item">
-        <ion-icon slot="start" name="mail-outline"></ion-icon>
-        <ion-label position="stacked">Email</ion-label>
+  <div class="auth-content fade-up" style="padding-top: 40px; position: relative; z-index: 1;">
+    <div class="avatar-section" style="text-align: center; margin-bottom: 30px;">
+      <div style="width: 100px; height: 100px; border-radius: 35px; background: rgba(255,255,255,0.05); border: 2px solid var(--primary-purple); margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);">
+        <ion-icon name="person" style="font-size: 3.5rem; color: var(--primary-purple);"></ion-icon>
+      </div>
+      <p style="color: var(--primary-purple); font-weight: 800; margin-top: 15px; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">Identity Verified</p>
+    </div>
+
+    <div class="glass-card" style="margin: 0 20px; padding: 30px 20px;">
+      <ion-row>
+        <ion-col size="6" style="padding-left: 0;">
+          <ion-item lines="none" class="cyber-input">
+            <ion-label position="stacked">First Name</ion-label>
+            <ion-input type="text" [(ngModel)]="userProfile.first_name"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6" style="padding-right: 0;">
+          <ion-item lines="none" class="cyber-input">
+            <ion-label position="stacked">Last Name</ion-label>
+            <ion-input type="text" [(ngModel)]="userProfile.last_name"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-item lines="none" class="cyber-input">
+        <ion-label position="stacked">Email Address</ion-label>
         <ion-input type="email" [(ngModel)]="userProfile.email"></ion-input>
       </ion-item>
       
-      <ion-item class="aesthetic-item">
-        <ion-icon slot="start" name="phone-portrait-outline"></ion-icon>
-        <ion-label position="stacked">Phone</ion-label>
+      <ion-item lines="none" class="cyber-input">
+        <ion-label position="stacked">Contact Number</ion-label>
         <ion-input type="tel" [(ngModel)]="userProfile.phone"></ion-input>
       </ion-item>
-    </ion-list>
-  </div>
 
-  <div class="glass-card">
-    <ion-item lines="none" class="aesthetic-item" (click)="changePassword()" button="true">
-      <ion-icon slot="start" name="shield-checkmark-outline"></ion-icon>
-      <ion-label>Security & Privacy</ion-label>
-      <ion-icon slot="end" name="chevron-forward" size="small"></ion-icon>
-    </ion-item>
+      <ion-button expand="block" class="electric-btn" (click)="saveAndClose()" style="margin-top: 20px;">
+        Synchronize Data
+      </ion-button>
+    </div>
   </div>
-
-  <div class="ion-padding">
-    <ion-button expand="block" class="purple-gradient-btn" (click)="saveAndClose()">
-      Save Changes
-    </ion-button>
-  </div>
-</ion-content>
+</ion-content>

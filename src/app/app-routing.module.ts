@@ -20,6 +20,11 @@ const routes: Routes = [
       import('./home/login/login.module').then(m => m.LoginPageModule)
   },
   {
+    path: 'signup',
+    loadChildren: () =>
+      import('./home/signup/signup.module').then(m => m.SignupPageModule)
+  },
+  {
     path: 'home',
     loadChildren: () =>
       import('./home/home.module').then(m => m.HomePageModule)
@@ -42,9 +47,17 @@ const routes: Routes = [
     loadChildren: () => import('./profile-modal/profile-modal.module').then( m => m.ProfileModalPageModule)
   },
   {
-  path: 'display-details/:index',
-  loadChildren: () => import('./home/display-details/display-details.module').then(m => m.DisplayDetailsPageModule)
-},
+    path: 'display-details/:index',
+    loadChildren: () => import('./home/display-details/display-details.module').then(m => m.DisplayDetailsPageModule)
+  },
+  {
+    path: 'security',
+    loadChildren: () => import('./pages/security/security.module').then(m => m.SecurityPageModule)
+  },  {
+    path: 'goals',
+    loadChildren: () => import('./pages/goals/goals.module').then( m => m.GoalsPageModule)
+  },
+
  
   
   

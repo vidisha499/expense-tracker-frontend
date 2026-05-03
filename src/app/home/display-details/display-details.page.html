@@ -1,239 +1,129 @@
-<!-- <ion-header class="ion-no-border">
-  <ion-toolbar
-   color="danger"
-  >
+
+<ion-header class="ion-no-border midnight-header">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
-    </ion-buttons>
-    <ion-title font-weight="20px">Transaction Details</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="details-content">
-  <div *ngIf="expense" class="main-container">
-   
-
-    <div class="summary-header">
-      <div
-        class="amount-pill"
-        [ngClass]="expense.type === 'expense' ? 'expense-pill' : 'income-pill'"
-      >
-        <div class="pill-content">
-          <span class="currency">₹</span>
-          <span class="value">{{ expense.amount | number:'1.2-2' }}</span>
-        </div>
-        <div class="pill-label">{{ expense.type | uppercase }}</div>
-      </div>
-      <h2 class="transaction-title">
-        {{ expense.expenseName || expense.title }}
-      </h2>
-    </div>
-
-    <ion-card class="info-card">
-      <ion-list lines="none">
-        <ion-item class="detail-item">
-          <div class="icon-box purple-bg" slot="start">
-            <ion-icon name="calendar-outline"></ion-icon>
-          </div>
-          <ion-label>
-            <p>Date</p>
-            <h3>{{ expense.date | date:'fullDate' }}</h3>
-          </ion-label>
-        </ion-item>
-
-        <ion-item class="detail-item" *ngIf="expense.category">
-          <div class="icon-box blue-bg" slot="start">
-            <ion-icon name="grid-outline"></ion-icon>
-          </div>
-          <ion-label>
-            <p>Category</p>
-            <h3>{{ expense.category }}</h3>
-          </ion-label>
-        </ion-item>
-
-        <ion-item class="detail-item" *ngIf="expense.category">
-          <div class="icon-box blue-bg" slot="start">
-            <ion-icon name="grid-outline"></ion-icon>
-          </div>
-          <ion-label>
-            <p>remark</p>
-            <h3>{{ expense.remark }}</h3>
-          </ion-label>
-        </ion-item>
-
-        <ion-item class="detail-item" *ngIf="expense.expenseHead">
-          <div class="icon-box green-bg" slot="start">
-            <ion-icon name="layers-outline"></ion-icon>
-          </div>
-          <ion-label>
-            <p>Head / Ledger</p>
-            <h3>{{ expense.expenseHead }}</h3>
-          </ion-label>
-        </ion-item>
-
-        <ion-item class="detail-item">
-          <div class="icon-box orange-bg" slot="start">
-            <ion-icon name="card-outline"></ion-icon>
-          </div>
-          <ion-label>
-            <p>Payment Mode</p>
-            <h3>{{ expense.paymentMode | titlecase }}</h3>
-          </ion-label>
-        </ion-item>
-
-        <ion-item class="detail-item" *ngIf="expense.expenseDoneBy">
-          <div class="icon-box teal-bg" slot="start">
-            <ion-icon name="person-outline"></ion-icon>
-          </div>
-          <ion-label>
-            <p>Done By</p>
-            <h3>
-              {{ expense.expenseDoneBy | titlecase }}
-              <span *ngIf="expense.otherPerson">({{expense.otherPerson}})</span>
-            </h3>
-          </ion-label>
-        </ion-item>
-
-        <ion-item class="detail-item" *ngIf="expense?.remark">
-          <div class="icon-box pink-bg" slot="start">
-            <ion-icon name="document-text-outline"></ion-icon>
-          </div>
-          <ion-label>
-            <p>Remark</p>
-            <h3>{{ expense.remark }}</h3>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card>
-  
-  <div style="padding: 16px;">
-    <ion-button expand="block" color="primary" mode="ios" (click)="generateReport()" style="--border-radius: 12px; height: 50px; font-weight: bold;">
-      <ion-icon name="document-text-outline" slot="start"></ion-icon>
-      GENERATE REPORT (PDF)
-    </ion-button>
-  </div>
->
-
-
-
-    <div *ngIf="expense?.bills && expense.bills.length > 0" class="bill-container">
-  <h3 class="section-label" style="margin-left: 16px; color: #6a11cb; font-weight: bold;">Attachments</h3>
-  
-  <div class="bill-scroll" style="display: flex; overflow-x: auto; padding: 10px; gap: 15px;">
-    <div class="bill-card" *ngFor="let img of expense.bills" style="flex: 0 0 auto;">
-      <img [src]="img" style="width: 150px; height: 200px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" />
-    </div>
-  </div>
-</div>
-  </div> -->
-
-  <ion-header class="ion-no-border">
-  <ion-toolbar color="danger">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-title>Transaction Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="details-content">
-  <div *ngIf="expense" class="main-container">
+<ion-content style="--background: #020617;">
+  <div class="midnight-hero-bg" style="height: 250px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
+    <div class="glow-orb" style="width: 250px; height: 250px; top: -100px; right: -50px; opacity: 0.15; background: var(--primary-purple);"></div>
+  </div>
 
-    <div class="summary-header">
-      <div class="amount-pill" [ngClass]="expense.type === 'expense' ? 'expense-pill' : 'income-pill'">
-        <div class="pill-content">
-          <span class="currency">₹</span>
-          <span class="value">{{ expense.amount | number:'1.2-2' }}</span>
-        </div>
-        <div class="pill-label">{{ expense.type | uppercase }}</div>
+  <div *ngIf="expense" class="fade-up" style="position: relative; z-index: 1; padding: 20px;">
+    
+    <div class="summary-card glass-card" style="margin-bottom: 25px; padding: 35px 20px; text-align: center;">
+      <div [style.background]="expense.type === 'expense' ? 'rgba(244, 63, 94, 0.15)' : 'rgba(16, 185, 129, 0.15)'" 
+           style="display: inline-block; padding: 6px 18px; border-radius: 100px; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.05);">
+        <span [style.color]="expense.type === 'expense' ? '#f43f5e' : '#10b981'" style="font-weight: 800; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;">
+          {{ expense.type | uppercase }}
+        </span>
       </div>
-      <h2 class="transaction-title">
+      
+      <h1 style="margin: 0; font-size: 2.6rem; font-weight: 800; color: white; letter-spacing: -1.5px;">
+        {{ expense.type === 'expense' ? '-' : '+' }}₹{{ (expense.amount < 0 ? -expense.amount : expense.amount) | number:'1.2-2' }}
+      </h1>
+      <p style="margin: 8px 0 0; font-size: 0.9rem; font-weight: 600; color: #94a3b8;">
         {{ expense.expenseName || expense.title }}
-      </h2>
+      </p>
     </div>
 
-    <ion-card class="info-card">
-      <ion-list lines="none">
-        <ion-item class="detail-item">
-          <div class="icon-box purple-bg" slot="start">
+    <div class="glass-card" style="margin-bottom: 25px; padding: 10px;">
+      <ion-list lines="none" style="background: transparent;">
+        
+        <ion-item style="--background: transparent; margin-bottom: 10px;">
+          <div slot="start" style="width: 44px; height: 44px; border-radius: 14px; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-purple); border: 1px solid rgba(99, 102, 241, 0.1);">
             <ion-icon name="calendar-outline"></ion-icon>
           </div>
           <ion-label>
-            <p>Date</p>
-            <h3>{{ expense.date | date:'fullDate' }}</h3>
+            <p style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Date</p>
+            <h3 style="color: white; font-weight: 700; font-size: 1rem;">{{ expense.date | date:'fullDate' }}</h3>
           </ion-label>
         </ion-item>
 
-        <ion-item class="detail-item" *ngIf="expense.category">
-          <div class="icon-box blue-bg" slot="start">
+        <ion-item style="--background: transparent; margin-bottom: 10px;" *ngIf="expense.category">
+          <div slot="start" style="width: 44px; height: 44px; border-radius: 14px; background: rgba(217, 70, 239, 0.1); display: flex; align-items: center; justify-content: center; color: var(--accent-pink); border: 1px solid rgba(217, 70, 239, 0.1);">
             <ion-icon name="grid-outline"></ion-icon>
           </div>
           <ion-label>
-            <p>Category</p>
-            <h3>{{ expense.category }}</h3>
+            <p style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Category</p>
+            <h3 style="color: white; font-weight: 700; font-size: 1rem;">{{ expense.category }}</h3>
           </ion-label>
         </ion-item>
 
-        <ion-item class="detail-item" *ngIf="expense.expenseHead">
-          <div class="icon-box green-bg" slot="start">
+        <ion-item style="--background: transparent; margin-bottom: 10px;" *ngIf="expense.expenseHead">
+          <div slot="start" style="width: 44px; height: 44px; border-radius: 14px; background: rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center; color: #10b981; border: 1px solid rgba(16, 185, 129, 0.1);">
             <ion-icon name="layers-outline"></ion-icon>
           </div>
           <ion-label>
-            <p>Head / Ledger</p>
-            <h3>{{ expense.expenseHead }}</h3>
+            <p style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Head / Ledger</p>
+            <h3 style="color: white; font-weight: 700; font-size: 1rem;">{{ expense.expenseHead }}</h3>
           </ion-label>
         </ion-item>
 
-        <ion-item class="detail-item">
-          <div class="icon-box orange-bg" slot="start">
+        <ion-item style="--background: transparent; margin-bottom: 10px;">
+          <div slot="start" style="width: 44px; height: 44px; border-radius: 14px; background: rgba(255, 165, 0, 0.1); display: flex; align-items: center; justify-content: center; color: orange; border: 1px solid rgba(255, 165, 0, 0.1);">
             <ion-icon name="card-outline"></ion-icon>
           </div>
           <ion-label>
-            <p>Payment Mode</p>
-            <h3>{{ expense.paymentMode | titlecase }}</h3>
+            <p style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Payment Mode</p>
+            <h3 style="color: white; font-weight: 700; font-size: 1rem;">{{ expense.paymentMode | titlecase }}</h3>
           </ion-label>
         </ion-item>
 
-        <ion-item class="detail-item" *ngIf="expense.expenseDoneBy">
-          <div class="icon-box teal-bg" slot="start">
+        <ion-item style="--background: transparent; margin-bottom: 10px;" *ngIf="expense.expenseDoneBy">
+          <div slot="start" style="width: 44px; height: 44px; border-radius: 14px; background: rgba(0, 206, 209, 0.1); display: flex; align-items: center; justify-content: center; color: darkturquoise; border: 1px solid rgba(0, 206, 209, 0.1);">
             <ion-icon name="person-outline"></ion-icon>
           </div>
           <ion-label>
-            <p>Done By</p>
-            <h3>
+            <p style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Done By</p>
+            <h3 style="color: white; font-weight: 700; font-size: 1rem;">
               {{ expense.expenseDoneBy | titlecase }}
-              <span *ngIf="expense.otherPerson">({{expense.otherPerson}})</span>
+              <span *ngIf="expense.otherPerson" style="color: #94a3b8; font-weight: 400;">({{expense.otherPerson}})</span>
             </h3>
           </ion-label>
         </ion-item>
 
-        <ion-item class="detail-item" *ngIf="expense.remark">
-          <div class="icon-box pink-bg" slot="start">
+        <ion-item style="--background: transparent;" *ngIf="expense.remark">
+          <div slot="start" style="width: 44px; height: 44px; border-radius: 14px; background: rgba(255, 105, 180, 0.1); display: flex; align-items: center; justify-content: center; color: hotpink; border: 1px solid rgba(255, 105, 180, 0.1);">
             <ion-icon name="document-text-outline"></ion-icon>
           </div>
           <ion-label>
-            <p>Remark</p>
-            <h3>{{ expense.remark }}</h3>
+            <p style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Remark</p>
+            <h3 style="color: white; font-weight: 600; font-size: 0.95rem; line-height: 1.4;">{{ expense.remark }}</h3>
           </ion-label>
         </ion-item>
-      </ion-list>
-    </ion-card>
 
-    <div style="padding: 16px;">
-      <ion-button expand="block" color="primary" mode="ios" (click)="generateReport()" style="--border-radius: 12px; height: 55px; font-weight: bold; margin-bottom: 20px;">
-        <ion-icon name="download-outline" slot="start"></ion-icon>
-        GENERATE REPORT (PDF)
-      </ion-button>
+      </ion-list>
     </div>
 
-    <div *ngIf="expense.bills && expense.bills.length > 0" class="bill-container">
-      <h3 class="section-label" style="margin-left: 16px; color: #6a11cb; font-weight: bold;">Attachments</h3>
-      <div class="bill-scroll" style="display: flex; overflow-x: auto; padding: 10px; gap: 15px;">
-        <div class="bill-card" *ngFor="let img of expense.bills">
-          <img [src]="img" style="width: 150px; height: 200px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" />
+    <div *ngIf="expense.bills && expense.bills.length > 0" class="bill-section" style="margin-bottom: 30px;">
+      <h3 style="color: #94a3b8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 15px 5px;">Attachments</h3>
+      <div style="display: flex; overflow-x: auto; padding-bottom: 10px; gap: 15px; scrollbar-width: none;">
+        <div *ngFor="let img of expense.bills" class="glass-card" style="flex: 0 0 auto; padding: 5px; border-radius: 18px;" (click)="previewImage(img)">
+          <img [src]="img" style="width: 160px; height: 220px; object-fit: cover; border-radius: 14px;" />
         </div>
       </div>
     </div>
 
+    <div style="display: flex; gap: 15px; margin-top: 30px;">
+      <ion-button (click)="editExpense()" style="flex: 1; --border-radius: 18px; --background: rgba(99, 102, 241, 0.1); --color: var(--primary-purple); height: 52px; font-weight: 700; border: 1px solid rgba(99, 102, 241, 0.2);">
+        <ion-icon name="create-outline" slot="start"></ion-icon>
+        Edit
+      </ion-button>
+      <ion-button (click)="deleteExpense()" style="flex: 1; --border-radius: 18px; --background: rgba(244, 63, 94, 0.1); --color: #f43f5e; height: 52px; font-weight: 700; border: 1px solid rgba(244, 63, 94, 0.2);">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        Delete
+      </ion-button>
+    </div>
+
+    <ion-button expand="block" class="electric-btn" (click)="generateReport()" style="margin-top: 20px; height: 60px;">
+      <ion-icon name="document-text-outline" slot="start"></ion-icon>
+      GENERATE REPORT (PDF)
+    </ion-button>
+    
   </div>
 </ion-content>

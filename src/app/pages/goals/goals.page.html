@@ -1,0 +1,71 @@
+
+<ion-header class="ion-no-border midnight-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Savings Goals</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddGoal()" color="primary">
+        <ion-icon name="add-circle" style="font-size: 1.8rem;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #020617;">
+  <div class="midnight-hero-bg" style="height: 180px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
+    <div class="glow-orb" style="width: 200px; height: 200px; top: -50px; right: -50px; opacity: 0.15; background: var(--primary-purple);"></div>
+  </div>
+
+  <div class="ion-padding fade-up" style="position: relative; z-index: 1;">
+    
+    <!-- Empty State -->
+    <div *ngIf="(goals$ | async)?.length === 0" style="text-align: center; padding: 100px 40px; opacity: 0.5;">
+      <div style="width: 80px; height: 80px; background: rgba(99, 102, 241, 0.1); border-radius: 30px; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; color: var(--primary-purple);">
+        <ion-icon name="trophy-outline" style="font-size: 3rem;"></ion-icon>
+      </div>
+      <h2 style="color: white; font-weight: 800; font-size: 1.4rem; margin-bottom: 10px;">No Goals Yet</h2>
+      <p style="color: #94a3b8; font-size: 0.9rem;">Set a goal and start saving for your dreams today!</p>
+      <ion-button class="electric-btn" style="margin-top: 30px; width: 200px;" (click)="openAddGoal()">
+        Create First Goal
+      </ion-button>
+    </div>
+
+    <!-- Goals List -->
+    <div *ngFor="let goal of (goals$ | async)" class="glass-card" style="margin-bottom: 20px; padding: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <div style="width: 48px; height: 48px; border-radius: 16px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+            {{ getEmoji(goal.category) }}
+          </div>
+          <div>
+            <h2 style="color: white; font-weight: 800; font-size: 1.1rem; margin: 0;">{{ goal.name }}</h2>
+            <p style="color: #94a3b8; font-size: 0.75rem; margin-top: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">{{ goal.category }}</p>
+          </div>
+        </div>
+        <ion-button fill="clear" (click)="deleteGoal(goal.id)" style="--color: #f43f5e;">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700;">₹{{ goal.currentAmount | number }} / ₹{{ goal.targetAmount | number }}</span>
+          <span style="color: var(--primary-purple); font-size: 0.8rem; font-weight: 800;">{{ (goal.currentAmount / goal.targetAmount) * 100 | number:'1.0-0' }}%</span>
+        </div>
+        <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
+          <div [style.width]="(goal.currentAmount / goal.targetAmount) * 100 + '%'" 
+               style="height: 100%; background: var(--premium-gradient); border-radius: 4px; transition: width 1s ease-out;"></div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <ion-button expand="block" fill="clear" style="flex: 1; --background: rgba(255,255,255,0.03); --color: white; font-weight: 700; font-size: 0.8rem;" (click)="addMoney(goal)">
+          Add Money
+        </ion-button>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

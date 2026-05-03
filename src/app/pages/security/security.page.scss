@@ -1,0 +1,14 @@
+
+/* Security Page Styles */
+:host {
+  ion-toggle {
+    --handle-background: #ffffff;
+    --handle-background-checked: #ffffff;
+    --track-background: rgba(255,255,255,0.1);
+    --track-background-checked: var(--primary-purple);
+  }
+
+  .cyber-input {
+    margin-bottom: 12px;
+  }
+}

@@ -11,6 +11,7 @@ Chart.register(...registerables);
   selector: 'app-charts',
   templateUrl: './charts.page.html',
   styleUrls: ['./charts.page.scss'],
+  
   standalone: false,
 })
 export class ChartsPage implements AfterViewInit {
@@ -60,15 +61,35 @@ export class ChartsPage implements AfterViewInit {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: '75%', // Thinner doughnut
+        cutout: '75%', 
+        // Force chart to listen to all mouse and touch events
+        events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove'],
         plugins: {
-          legend: { display: false }, // Using our custom list instead
+          legend: { display: false },
           tooltip: {
-            backgroundColor: '#2b1d52',
-            padding: 12,
-            cornerRadius: 10,
-            titleFont: { size: 14, weight: 'bold' }
+            enabled: true,
+            position: 'average',
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            titleColor: '#fff',
+            bodyColor: '#94a3b8',
+            padding: 15,
+            cornerRadius: 15,
+            displayColors: true,
+            borderColor: 'rgba(255,255,255,0.1)',
+            borderWidth: 1,
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 12 },
+            callbacks: {
+              label: (context) => {
+                const value = context.parsed;
+                return ` ₹${value.toLocaleString()}`;
+              }
+            }
           }
+        },
+        interaction: {
+          mode: 'index',
+          intersect: false, // This makes it show details even if you are just 'near' the slice
         },
         animation: {
           animateScale: true,
@@ -82,5 +103,24 @@ export class ChartsPage implements AfterViewInit {
 
   goToReports() {
     this.router.navigate(['/home/reports']);
+  }
+
+  getIcon(label: string): string {
+    const icons: { [key: string]: string } = {
+      'Food & Dining': 'restaurant',
+      'Shopping': 'cart',
+      'Travel': 'airplane',
+      'Fuel': 'speedometer',
+      'Coffee': 'cafe',
+      'Salary': 'cash',
+      'Medical': 'medkit',
+      'Entertainment': 'game-controller',
+      'Education': 'school',
+      'Personal Care': 'cut',
+      'Freelance': 'laptop',
+      'Business': 'briefcase',
+      'Others': 'grid'
+    };
+    return icons[label.trim()] || 'cube-outline';
   }
 }

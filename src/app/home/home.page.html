@@ -1,131 +1,221 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="danger">
+
+<ion-header class="ion-no-border midnight-header">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button color="light" style="transform: scale(1.35); margin-left: 8px;"></ion-menu-button>
     </ion-buttons>
-    <ion-title class="ion-text-center"> Expense Tracker </ion-title>
+    <ion-title class="ion-text-center" style="font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px;"> My Finances </ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="light" (click)="setOpen(true)">
+        <ion-icon name="calendar-clear" style="font-size: 1.8rem;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content style="--background: #020617;">
+  <div class="midnight-hero-bg" style="height: 400px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
+    <div class="glow-orb orb-1" style="width: 300px; height: 300px; top: -100px; right: -80px; opacity: 0.2; background: var(--primary-purple);"></div>
+    <div class="glow-orb orb-2" style="width: 200px; height: 200px; top: 100px; left: -50px; opacity: 0.15; background: var(--accent-pink);"></div>
+  </div>
   
-  <div class="summary" style="background: linear-gradient(135deg,  #7b5cff, #5e8cda); color: white; padding: 12px 16px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-    
-    <div class="summary-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-      <div>
-        <h2 style="margin: 0; font-weight: 600; font-size: 1.1rem; color:white;">{{ today | date:'MMMM yyyy' }}</h2>
-        <ion-badge color="light" *ngIf="dateRangeActive" style="font-size: 0.6rem; color: #1e3c72; padding: 2px 6px;">
-          Filtered Range
-        </ion-badge>
-      </div>
-      
-      <ion-button fill="clear" size="small" (click)="setOpen(true)">
-        <ion-icon name="calendar-outline" slot="icon-only" style="color: white; font-size: 1.3rem;"></ion-icon>
-      </ion-button>
-    </div>
-
-    <div class="balance-container" style="text-align: center; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
-      <p style="margin: 0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8;">Available Balance</p>
-      <h1 style="margin: 2px 0; font-size: 2rem; font-weight: 700;">
+  <div class="summary glass-card fade-up" style="margin: 15px 20px; padding: 25px 20px; position: relative; z-index: 1;">
+    <div class="balance-container" style="text-align: center;">
+      <p style="margin: 0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: #94a3b8; font-weight: 700;">Net Worth</p>
+      <h1 style="margin: 12px 0; font-size: 2rem; font-weight: 800; color: white; letter-spacing: -1px;padding-top: 15px;">
         ₹{{ (totalIncome - totalExpense) | number }}
       </h1>
+      <div style="width: 35px; height: 3px; background: var(--premium-gradient); border-radius: 2px; margin: 0 auto 20px;"></div>
     </div>
 
-    <div class="totals" style="display: flex; justify-content: space-between; gap: 8px;">
-      <div class="incom" style="flex: 1; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 12px; text-align: center;">
-        <small style="display: block; font-size: 0.7rem; opacity: 0.9; margin-bottom: 2px;color:white;">💰 Income</small>
-        <strong style="font-size: 1.1rem; color: #2dd36f;">₹{{ totalIncome | number }}</strong>
+    <div class="stats-row" style="display: flex; gap: 12px;">
+      <div class="stat-card" style="flex: 1; background: rgba(16, 185, 129, 0.08); padding: 14px 10px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.15); text-align: center;">
+        <span style="display: block; font-size: 0.6rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Total Inflow</span>
+        <p style="margin: 0; font-size: 0.95rem; font-weight: 800; color: white;">+₹{{ totalIncome | number }}</p>
       </div>
 
-      <div class="expense" style="flex: 1; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 12px; text-align: center;">
-        <small style="display: block; font-size: 0.7rem; opacity: 0.9; margin-bottom: 2px;color:white;">💸 Expense</small>
-        <strong style="font-size: 1.1rem; color: #ff4961;">₹{{ totalExpense | number }}</strong>
+      <div class="stat-card" style="flex: 1; background: rgba(244, 63, 94, 0.08); padding: 14px 10px; border-radius: 20px; border: 1px solid rgba(244, 63, 94, 0.15); text-align: center;">
+        <span style="display: block; font-size: 0.6rem; font-weight: 800; color: #f43f5e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Total Outflow</span>
+        <p style="margin: 0; font-size: 0.95rem; font-weight: 800; color: white;">-₹{{ totalExpense | number }}</p>
       </div>
     </div>
   </div>
 
-  <div class="filter-row" style="display: flex; gap: 12px; padding: 20px 15px;">
-    <div class="filter-btn" 
-         (click)="setFilter('expense')"
-         [style.opacity]="filter === 'income' ? '0.4' : '1'"
-         style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 15px; background: #eb445a; color: white; box-shadow: 0 4px 8px rgba(235, 68, 90, 0.3);">
-      <ion-icon name="arrow-up-outline"></ion-icon>
-      <span style="font-weight: 700; font-size: 0.9rem; text-transform: uppercase;">Expense</span>
+  <!-- Smart Insight Card -->
+  <div class="insight-card glass-card fade-up" style="margin: 0 20px 25px; padding: 15px; border-radius: 20px; background: rgba(99, 102, 241, 0.08); display: flex; align-items: center; gap: 15px; position: relative; z-index: 1; border-color: rgba(99, 102, 241, 0.2);">
+    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(99, 102, 241, 0.2); display: flex; align-items: center; justify-content: center; color: var(--primary-purple); flex-shrink: 0;">
+      <ion-icon name="sparkles" style="font-size: 1.4rem;"></ion-icon>
     </div>
-    
-    <div class="filter-btn" 
-         (click)="setFilter('income')"
-         [style.opacity]="filter === 'expense' ? '0.4' : '1'"
-         style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 15px; background: #2dd36f; color: white; box-shadow: 0 4px 8px rgba(45, 211, 111, 0.3);">
-      <ion-icon name="arrow-down-outline"></ion-icon>
-      <span style="font-weight: 700; font-size: 0.9rem; text-transform: uppercase;">Income</span>
+    <p style="margin: 0; font-size: 0.75rem; color: #cbd5e1; font-weight: 600; line-height: 1.4;">
+      {{ insightMessage }}
+    </p>
+  </div>
+
+  <!-- Quick Actions Row -->
+  <div class="quick-actions" style="padding: 0 20px 25px; position: relative; z-index: 1; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none;">
+    <div (click)="quickAdd('Coffee')" class="quick-btn" style="flex-shrink: 0; background: rgba(255,255,255,0.03); padding: 10px 18px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 8px;">
+      <ion-icon name="cafe-outline" style="color: #fb923c;"></ion-icon>
+      <span style="font-size: 0.75rem; font-weight: 700; color: white;">Chai/Coffee</span>
+    </div>
+    <div (click)="quickAdd('Fuel')" class="quick-btn" style="flex-shrink: 0; background: rgba(255,255,255,0.03); padding: 10px 18px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 8px;">
+      <ion-icon name="speedometer-outline" style="color: #6366f1;"></ion-icon>
+      <span style="font-size: 0.75rem; font-weight: 700; color: white;">Petrol</span>
+    </div>
+    <div (click)="quickAdd('Food')" class="quick-btn" style="flex-shrink: 0; background: rgba(255,255,255,0.03); padding: 10px 18px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 8px;">
+      <ion-icon name="fast-food-outline" style="color: #f43f5e;"></ion-icon>
+      <span style="font-size: 0.75rem; font-weight: 700; color: white;">Fast Food</span>
     </div>
   </div>
 
-  <ion-list *ngIf="filteredExpenses.length > 0" lines="full">
-    <ion-item-sliding *ngFor="let e of filteredExpenses; let i = index">
-      <ion-item button detail="false">
-        <ion-label [routerLink]="['/display-details', i]">
-          <h2 style="font-weight: 600; font-size: 0.95rem;">{{ e.expenseName || e.title }}</h2>
-          <p style="font-size: 0.75rem; color: #666;">{{ e.date | date:'dd MMM yyyy' }} • {{ e.paymentMode}}</p>
-        </ion-label>
-        
-        <ion-text slot="end" style="font-weight: 700; font-size: 1rem;">
-          <span [style.color]="e.type === 'expense' ? '#eb445a' : '#2dd36f'">
-            <!-- {{ e.type === 'expense' ? '-' : '+' }}-->₹{{ e.amount  }} 
-          </span>
-        </ion-text>
-
-        <ion-button fill="clear" color="medium" slot="end" (click)="deleteExpense(i); $event.stopPropagation()">
-          <ion-icon name="trash-outline" style="font-size: 1.1rem;"></ion-icon>
-        </ion-button>
-      </ion-item>
-    </ion-item-sliding>
-  </ion-list>
-
-  <div class="ion-padding ion-text-center" *ngIf="filteredExpenses.length === 0" style="margin-top: 40px; opacity: 0.5;">
-    <ion-icon name="receipt-outline" style="font-size: 3rem; color: #ccc;"></ion-icon>
-    <p>No transactions found.</p>
+  <!-- Relative Time Filter - Glass Style -->
+  <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 10px; padding: 0 15px; position: relative; z-index: 1;">
+    <div (click)="timeFilter = 'all'; dateRangeActive = false; groupTransactions()" 
+         [style.background]="timeFilter === 'all' ? 'var(--premium-gradient)' : 'rgba(255,255,255,0.03)'"
+         [style.border]="timeFilter === 'all' ? 'none' : '1px solid rgba(255,255,255,0.08)'"
+         style="padding: 10px 14px; border-radius: 14px; font-size: 0.65rem; font-weight: 800; color: white; cursor: pointer; flex: 1; text-align: center; letter-spacing: 1px;">
+      ALL
+    </div>
+    <div (click)="timeFilter = 'week'; dateRangeActive = false; groupTransactions()" 
+         [style.background]="timeFilter === 'week' ? 'var(--premium-gradient)' : 'rgba(255,255,255,0.03)'"
+         [style.border]="timeFilter === 'week' ? 'none' : '1px solid rgba(255,255,255,0.08)'"
+         style="padding: 10px 14px; border-radius: 14px; font-size: 0.65rem; font-weight: 800; color: white; cursor: pointer; flex: 1; text-align: center; letter-spacing: 1px;">
+      WEEK
+    </div>
+    <div (click)="timeFilter = 'month'; dateRangeActive = false; groupTransactions()" 
+         [style.background]="timeFilter === 'month' ? 'var(--premium-gradient)' : 'rgba(255,255,255,0.03)'"
+         [style.border]="timeFilter === 'month' ? 'none' : '1px solid rgba(255,255,255,0.08)'"
+         style="padding: 10px 14px; border-radius: 14px; font-size: 0.65rem; font-weight: 800; color: white; cursor: pointer; flex: 1; text-align: center; letter-spacing: 1px;">
+      MONTH
+    </div>
+    <div (click)="timeFilter = 'custom'; groupTransactions()" 
+         [style.background]="timeFilter === 'custom' ? 'var(--premium-gradient)' : 'rgba(255,255,255,0.03)'"
+         [style.border]="timeFilter === 'custom' ? 'none' : '1px solid rgba(255,255,255,0.08)'"
+         style="padding: 10px 14px; border-radius: 14px; font-size: 0.65rem; font-weight: 800; color: white; cursor: pointer; flex: 1.2; text-align: center; letter-spacing: 1px;">
+      CUSTOM
+    </div>
   </div>
 
-  <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" #dateModal initialBreakpoint="0.4" [breakpoints]="[0, 0.4, 0.7]">
+  <!-- Custom Date Picker Section -->
+  <div *ngIf="timeFilter === 'custom'" class="fade-up" style="margin: 0 15px 20px; position: relative; z-index: 1;">
+    <div class="glass-card" style="padding: 12px; display: flex; align-items: center; justify-content: space-around; gap: 10px; border-radius: 20px;">
+      <div (click)="openStartDatePicker()" style="text-align: center; flex: 1;">
+        <p style="margin: 0; font-size: 0.55rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">From</p>
+        <p style="margin: 2px 0 0; font-size: 0.8rem; font-weight: 700; color: white;">{{ filterStartDate | date:'dd MMM' }}</p>
+      </div>
+      <div style="height: 20px; width: 1px; background: rgba(255,255,255,0.1);"></div>
+      <div (click)="openEndDatePicker()" style="text-align: center; flex: 1;">
+        <p style="margin: 0; font-size: 0.55rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">To</p>
+        <p style="margin: 2px 0 0; font-size: 0.8rem; font-weight: 700; color: white;">{{ filterEndDate | date:'dd MMM' }}</p>
+      </div>
+      <ion-button fill="clear" (click)="resetCustomDates()" style="--color: #f43f5e; --padding-start: 0; --padding-end: 0; margin: 0;">
+        <ion-icon name="refresh-outline" slot="icon-only" style="font-size: 1.2rem;"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Popovers for Date Selection -->
+  <ion-popover [isOpen]="isStartDateOpen" (didDismiss)="isStartDateOpen = false" [dismissOnSelect]="false" style="--width: 320px;">
     <ng-template>
-      <div style="padding: 16px;">
-        <div style="width: 36px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 0 auto 16px;"></div>
-        <ion-title style="padding: 0; font-size: 1rem; font-weight: 600;">Select Range</ion-title>
-        <div style="margin-top: 15px;">
-          <ion-item lines="full" id="start-date-trigger" button="true">
-            <ion-label style="font-size: 0.85rem;">From</ion-label>
-            <ion-text slot="end" color="primary">{{ filterStartDate | date:'mediumDate' }}</ion-text>
-          </ion-item>
-          <ion-item lines="none" id="end-date-trigger" button="true">
-            <ion-label style="font-size: 0.85rem;">To</ion-label>
-            <ion-text slot="end" color="primary">{{ filterEndDate | date:'mediumDate' }}</ion-text>
-          </ion-item>
-        </div>
-        <ion-button expand="block" color="danger" (click)="applyRangeFilter(); dateModal.dismiss()" style="margin-top: 15px; --border-radius: 10px;">
-          Apply
-        </ion-button>
-      </div>
+      <ion-datetime presentation="date" [(ngModel)]="filterStartDate" (ionChange)="onDateRangeChange()" [max]="filterEndDate" style="--background: #0f172a; border-radius: 16px;"></ion-datetime>
     </ng-template>
-  </ion-modal>
+  </ion-popover>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="danger" (click)="addExpense()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <ion-popover [isOpen]="isEndDateOpen" (didDismiss)="isEndDateOpen = false" [dismissOnSelect]="false" style="--width: 320px;">
+    <ng-template>
+      <ion-datetime presentation="date" [(ngModel)]="filterEndDate" (ionChange)="onDateRangeChange()" [min]="filterStartDate" [max]="today.toISOString()" style="--background: #0f172a; border-radius: 16px;"></ion-datetime>
+    </ng-template>
+  </ion-popover>
+
+  <!-- Refined Filter Bar -->
+  <div class="filter-bar" style="display: flex; gap: 10px; padding: 0 20px 25px; position: relative; z-index: 1;">
+    <div class="f-item" (click)="setFilter('expense'); groupTransactions()" 
+         [style.background]="filter === 'income' ? 'rgba(255,255,255,0.03)' : 'rgba(244, 63, 94, 0.15)'"
+         [style.border-color]="filter === 'income' ? 'rgba(255,255,255,0.05)' : '#f43f5e'"
+         style="flex: 1; padding: 14px; border-radius: 22px; border: 1px solid; text-align: center; transition: all 0.3s ease;">
+      <span [style.color]="filter === 'income' ? '#94a3b8' : 'white'" style="font-weight: 800; font-size: 0.8rem; letter-spacing: 1px;">Expense</span>
+    </div>
+    <div class="f-item" (click)="setFilter('income'); groupTransactions()" 
+         [style.background]="filter === 'expense' ? 'rgba(255,255,255,0.03)' : 'rgba(16, 185, 129, 0.15)'"
+         [style.border-color]="filter === 'expense' ? 'rgba(255,255,255,0.05)' : '#10b981'"
+         style="flex: 1; padding: 14px; border-radius: 22px; border: 1px solid; text-align: center; transition: all 0.3s ease;">
+      <span [style.color]="filter === 'expense' ? '#94a3b8' : 'white'" style="font-weight: 800; font-size: 0.8rem; letter-spacing: 1px;">Income</span>
+    </div>
+  </div>
+
+  <div class="activity-section" style="position: relative; z-index: 1; padding: 0 20px 120px;">
+    
+    <div *ngFor="let group of groupedExpenses" style="margin-bottom: 30px;">
+      <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px;">
+        <h3 style="margin: 0; font-weight: 800; color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px;">{{ group.title }}</h3>
+        <span style="font-size: 0.65rem; font-weight: 700; color: rgba(255,255,255,0.2);">{{ group.items.length }} Records</span>
+      </div>
+
+      <ion-list lines="none" style="background: transparent;">
+        <ion-item-sliding *ngFor="let e of group.items; let i = index" style="margin-bottom: 12px; border-radius: 24px; overflow: hidden;">
+          <ion-item button detail="false" style="--background: rgba(255,255,255,0.03); --padding-start: 4px; --padding-end: 16px;">
+            <div slot="start" [style.background]="e.type === 'expense' ? 'rgba(244, 63, 94, 0.12)' : 'rgba(16, 185, 129, 0.12)'" 
+                 style="width: 42px; height: 42px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-right: 12px; border: 1px solid rgba(255,255,255,0.05);">
+              <ion-icon [name]="e.type === 'expense' ? 'arrow-down' : 'arrow-up'" 
+                        [style.color]="e.type === 'expense' ? '#f43f5e' : '#10b981'"
+                        style="font-size: 1.2rem;"></ion-icon>
+            </div>
+
+            <ion-label [routerLink]="['/display-details', expensesList.indexOf(e)]">
+              <h2 style="font-weight: 700; color: white; font-size: 0.95rem; margin-bottom: 2px;">{{ e.expenseName || e.title }}</h2>
+              <p style="font-size: 0.7rem; color: #94a3b8; font-weight: 600;">{{ e.paymentMode }} • {{ e.expenseHead }}</p>
+            </ion-label>
+
+            <div slot="end" style="text-align: right;">
+              <h2 [style.color]="e.type === 'expense' ? '#f43f5e' : '#10b981'" 
+                  style="font-weight: 800; font-size: 1.05rem; margin: 0; letter-spacing: -0.5px;">
+                {{ e.type === 'expense' ? '-' : '+' }}₹{{ (e.amount < 0 ? -e.amount : e.amount) | number }}
+              </h2>
+            </div>
+          </ion-item>
+
+          <ion-item-options side="end" style="padding-right: 10px;">
+            <ion-item-option (click)="editExpense(e)" 
+                             style="--background: rgba(99, 102, 241, 0.15); border-radius: 18px; width: 54px; margin: 5px; border: 1px solid rgba(99, 102, 241, 0.2);">
+              <ion-icon slot="icon-only" name="create-outline" style="color: #6366f1; font-size: 1.3rem;"></ion-icon>
+            </ion-item-option>
+            <ion-item-option (click)="deleteExpense(expensesList.indexOf(e))" 
+                             style="--background: rgba(244, 63, 94, 0.15); border-radius: 18px; width: 54px; margin: 5px; border: 1px solid rgba(244, 63, 94, 0.2);">
+              <ion-icon slot="icon-only" name="trash-outline" style="color: #f43f5e; font-size: 1.3rem;"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+
+    <div class="empty-state" *ngIf="groupedExpenses.length === 0" style="text-align: center; padding: 60px 0; opacity: 0.3;">
+      <ion-icon name="sparkles-outline" style="font-size: 4.5rem; color: #94a3b8;"></ion-icon>
+      <p style="color: #94a3b8; font-weight: 700; margin-top: 20px; font-size: 1.1rem;">No recent activity</p>
+    </div>
+  </div>
+
 </ion-content>
 
-<ion-footer>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="charts" routerLink="/charts">
-      <ion-icon name="bar-chart-outline" color="tertiary"></ion-icon>
-      <ion-label color="primary">Charts</ion-label>
-    </ion-tab-button>
-    <ion-tab-button tab="reports" routerLink="/home/reports">
-      <ion-icon name="book-outline" color="tertiary"></ion-icon>
-      <ion-label color="primary">Reports</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
+<ion-footer class="ion-no-border">
+  <div style="position: relative; background: #0f172a;">
+    <ion-tab-bar slot="bottom" style="height: 75px; border-top: 1px solid rgba(255,255,255,0.05);">
+      <ion-tab-button tab="charts" routerLink="/charts" style="--color: #94a3b8; --color-selected: white;">
+        <ion-icon name="bar-chart-outline" style="font-size: 1.5rem;"></ion-icon>
+        <ion-label style="font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;">Charts</ion-label>
+      </ion-tab-button>
+      
+      <!-- Spacer for FAB -->
+      <div style="width: 80px;"></div>
+
+      <ion-tab-button tab="reports" routerLink="/home/reports" style="--color: #94a3b8; --color-selected: white;">
+        <ion-icon name="book-outline" style="font-size: 1.5rem;"></ion-icon>
+        <ion-label style="font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;">Reports</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+
+    <ion-fab vertical="bottom" horizontal="center" style="bottom: 12px;">
+      <ion-fab-button class="electric-btn" (click)="addExpense()" style="--width: 62px; --height: 62px; --border-radius: 20px; --box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);">
+        <ion-icon name="add" style="font-size: 2.2rem;"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
 </ion-footer>

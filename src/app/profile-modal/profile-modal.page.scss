@@ -11,6 +11,15 @@
   }
 }
 
+.purple-theme-header {
+  --background: #6a11cb;
+  --color: white;
+  
+  ion-title {
+    font-weight: 700;
+  }
+}
+
 .purple-theme {
   --background: #f8f7ff; 
 

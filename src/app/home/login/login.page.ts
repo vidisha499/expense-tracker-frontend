@@ -76,7 +76,7 @@
 //   }
 // }
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewEncapsulation} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -86,7 +86,9 @@ import { environment } from 'src/environments/environment';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
+  encapsulation: ViewEncapsulation.None,
   standalone: false,
+  
 })
 export class LoginPage implements OnInit {
 
@@ -115,24 +117,29 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    const { email, password } = this.loginForm.value;
+    const email = this.loginForm.value.email.toLowerCase().trim();
+    const password = this.loginForm.value.password;
+
+    console.log('🚀 Attempting Login with:', email);
 
     this.http
       .post<any>(`${environment.apiUrl}/login`, { email, password })
       .subscribe({
         next: (res) => {
-          console.log('✅ Login successful', res);
-
-          // Save login details
+          console.log('✅ Login Response:', res);
           localStorage.setItem('userId', res.user.id);
           localStorage.setItem('email', res.user.email);
-
-          // Navigate to home page
           this.router.navigate(['/home']);
         },
         error: (err) => {
-          console.error('❌ Login failed', err);
-          this.loginError = 'Invalid email or password';
+          console.error('❌ Login Error Details:', err);
+          if (err.status === 0) {
+            this.loginError = 'Cannot connect to server. Check your internet or API URL.';
+          } else if (err.status === 401) {
+            this.loginError = 'Invalid email or password. Please check your spelling.';
+          } else {
+            this.loginError = err.error?.message || 'Something went wrong. Try again.';
+          }
           alert(this.loginError);
         },
       });
