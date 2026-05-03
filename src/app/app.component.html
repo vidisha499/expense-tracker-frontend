@@ -1,72 +1,75 @@
 <ion-app>
   <ion-menu contentId="main-content" type="overlay" class="midnight-menu">
-    <ion-content class="ion-no-padding" style="--background: #0f172a;">
-      <!-- Premium Menu Header -->
-      <div class="menu-header" (click)="openProfileModal()" style="cursor: pointer;">
-        <div class="header-glow"></div>
-        <div class="user-info">
-          <div class="avatar-circle">
-            <ion-icon name="person"></ion-icon>
+    
+    <ion-header class="ion-no-border">
+      <div class="menu-header" (click)="openProfileModal()" style="cursor: pointer; padding-top: calc(5px + var(--ion-safe-area-top)); background: #0f172a; padding-left: 20px; padding-right: 20px; padding-bottom: 10px;">
+        <div class="header-glow" style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: var(--primary-purple); filter: blur(60px); opacity: 0.2; z-index: 0;"></div>
+        <div class="user-info" style="display: flex; align-items: center; gap: 15px; position: relative; z-index: 1;">
+          <div class="avatar-circle" style="width: 50px; height: 50px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1);">
+            <ion-icon name="person" style="font-size: 1.5rem; color: white;"></ion-icon>
           </div>
           <div class="user-text">
-            <h2 style="font-size: 1.2rem; font-weight: 800;">Welcome Back</h2>
-            <p style="color: var(--primary-purple); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Premium Account</p>
+            <h2 style="font-size: 1.2rem; font-weight: 800; color: white; margin: 0;">Welcome, {{ userName }}</h2>
+            <p style="color: var(--primary-purple); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 4px 0 0;">Premium Account</p>
           </div>
         </div>
       </div>
+    </ion-header>
 
-      <!-- Enhanced Menu List -->
-      <ion-list lines="none" class="menu-list" style="background: transparent; padding-top: 20px;">
+    <ion-content style="--background: #0f172a;">
+      <ion-list lines="none" style="background: transparent; padding: 10px 0;">
         <ion-menu-toggle auto-hide="false">
           
-          <ion-item button routerLink="/home" routerDirection="root" class="menu-item">
-            <div class="icon-box"><ion-icon name="grid-outline"></ion-icon></div>
-            <ion-label style="font-weight: 700;">Dashboard</ion-label>
+          <ion-item button routerLink="/home" routerDirection="root" class="menu-item" style="--background: transparent; margin: 2px 0;">
+            <ion-icon name="grid-outline" slot="start" style="font-size: 1.5rem; margin-right: 20px; filter: drop-shadow(0 0 5px #8b5cf6); color: #a78bfa;"></ion-icon>
+            <ion-label style="font-weight: 700; color: #94a3b8;">Dashboard</ion-label>
           </ion-item>
           
-          <ion-item button routerLink="/category" class="menu-item">
-            <div class="icon-box"><ion-icon name="layers-outline"></ion-icon></div>
-            <ion-label style="font-weight: 700;">My Categories</ion-label>
+          <ion-item button routerLink="/category" class="menu-item" style="--background: transparent; margin: 2px 0;">
+            <ion-icon name="layers-outline" slot="start" style="font-size: 1.5rem; margin-right: 20px; filter: drop-shadow(0 0 5px #06b6d4); color: #22d3ee;"></ion-icon>
+            <ion-label style="font-weight: 700; color: #94a3b8;">My Categories</ion-label>
           </ion-item>
 
-          <ion-item button routerLink="/charts" class="menu-item">
-            <div class="icon-box"><ion-icon name="bar-chart-outline"></ion-icon></div>
-            <ion-label style="font-weight: 700;">Financial Analysis</ion-label>
+          <ion-item button routerLink="/charts" class="menu-item" style="--background: transparent; margin: 2px 0;">
+            <ion-icon name="bar-chart-outline" slot="start" style="font-size: 1.5rem; margin-right: 20px; filter: drop-shadow(0 0 5px #10b981); color: #34d399;"></ion-icon>
+            <ion-label style="font-weight: 700; color: #94a3b8;">Financial Analysis</ion-label>
           </ion-item>
 
-          <ion-item button routerLink="/home/reports" class="menu-item">
-            <div class="icon-box"><ion-icon name="document-text-outline"></ion-icon></div>
-            <ion-label style="font-weight: 700;">Generate Reports</ion-label>
+          <ion-item button routerLink="/home/reports" class="menu-item" style="--background: transparent; margin: 2px 0;">
+            <ion-icon name="document-text-outline" slot="start" style="font-size: 1.5rem; margin-right: 20px; filter: drop-shadow(0 0 5px #f59e0b); color: #fbbf24;"></ion-icon>
+            <ion-label style="font-weight: 700; color: #94a3b8;">Generate Reports</ion-label>
           </ion-item>
 
           <div style="height: 1px; background: rgba(255,255,255,0.05); margin: 15px 25px;"></div>
 
-          <ion-item button (click)="openProfileModal()" class="menu-item">
-            <div class="icon-box"><ion-icon name="person-circle-outline"></ion-icon></div>
-            <ion-label style="font-weight: 700;">User Identity</ion-label>
+          <ion-item button (click)="openProfileModal()" class="menu-item" style="--background: transparent; margin: 2px 0;">
+            <ion-icon name="person-circle-outline" slot="start" style="font-size: 1.5rem; margin-right: 20px; filter: drop-shadow(0 0 5px #ec4899); color: #f472b6;"></ion-icon>
+            <ion-label style="font-weight: 700; color: #94a3b8;">User Identity</ion-label>
           </ion-item>
 
-          <ion-item button routerLink="/security" class="menu-item">
-            <div class="icon-box"><ion-icon name="shield-checkmark-outline"></ion-icon></div>
-            <ion-label style="font-weight: 700;">Security & Privacy</ion-label>
+          <ion-item button routerLink="/security" class="menu-item" style="--background: transparent; margin: 2px 0;">
+            <ion-icon name="shield-checkmark-outline" slot="start" style="font-size: 1.5rem; margin-right: 20px; filter: drop-shadow(0 0 5px #3b82f6); color: #60a5fa;"></ion-icon>
+            <ion-label style="font-weight: 700; color: #94a3b8;">Security & Privacy</ion-label>
           </ion-item>
 
-          <ion-item button routerLink="/goals" class="menu-item">
-            <div class="icon-box"><ion-icon name="trophy-outline"></ion-icon></div>
-            <ion-label style="font-weight: 700;">Savings Goals</ion-label>
+          <ion-item button routerLink="/goals" class="menu-item" style="--background: transparent; margin: 2px 0;">
+            <ion-icon name="trophy-outline" slot="start" style="font-size: 1.5rem; margin-right: 20px; filter: drop-shadow(0 0 5px #eab308); color: #facc15;"></ion-icon>
+            <ion-label style="font-weight: 700; color: #94a3b8;">Savings Goals</ion-label>
           </ion-item>
 
         </ion-menu-toggle>
       </ion-list>
+    </ion-content>
 
-      <!-- Fixed Footer -->
-      <div class="menu-footer" style="background: rgba(0,0,0,0.2);">
-        <ion-button fill="clear" (click)="logout()" class="logout-btn" style="--color: #f43f5e; font-weight: 800; font-size: 0.95rem;">
+    <ion-footer class="ion-no-border" style="background: #0f172a;">
+      <div class="menu-footer" style="background: rgba(0,0,0,0.2); padding-bottom: calc(10px + var(--ion-safe-area-bottom)); padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.03);">
+        <ion-button fill="clear" (click)="logout()" class="logout-btn" style="--color: #f43f5e; font-weight: 800; font-size: 0.95rem; width: 100%;">
           <ion-icon name="power-outline" slot="start" style="font-size: 1.2rem;"></ion-icon>
           Sign Out
         </ion-button>
       </div>
-    </ion-content>
+    </ion-footer>
+
   </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

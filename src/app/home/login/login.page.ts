@@ -82,6 +82,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ExpenseService } from 'src/app/services/expense-service';
+import { ProfileService } from 'src/app/services/profile-service';
 
 @Component({
   selector: 'app-login',
@@ -103,7 +104,8 @@ export class LoginPage implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private http: HttpClient,
-    private expenseService: ExpenseService
+    private expenseService: ExpenseService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit() {
@@ -130,6 +132,10 @@ export class LoginPage implements OnInit {
           console.log('✅ Login Response:', res);
           localStorage.setItem('userId', res.user.id);
           localStorage.setItem('email', res.user.email);
+          
+          // Trigger profile refresh immediately
+          this.profileService.getUserProfile(res.user.id).subscribe();
+          
           this.router.navigate(['/home']);
         },
         error: (err) => {

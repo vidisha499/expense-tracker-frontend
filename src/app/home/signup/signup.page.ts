@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ExpenseService } from 'src/app/services/expense-service';
 
+import { ProfileService } from 'src/app/services/profile-service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.page.html',
@@ -21,7 +22,8 @@ export class SignupPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private expenseService: ExpenseService
+    private expenseService: ExpenseService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit() {
@@ -65,9 +67,14 @@ export class SignupPage implements OnInit {
     console.log('🚀 Sending Register Request...');
     this.expenseService.register(firstName, lastName, normalizedEmail, mobileNumber, password).subscribe({
       next: (res: any) => {
-        console.log('✅ Signup successful', res);
-        alert('Signup successful! Please login.');
-        this.router.navigate(['/login']);
+        console.log('✅ User registered successfully', res);
+        localStorage.setItem('userId', res.userId);
+        localStorage.setItem('email', normalizedEmail);
+        
+        // Trigger profile refresh immediately
+        this.profileService.getUserProfile(res.userId).subscribe();
+        
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         console.error('❌ Signup failed', err);

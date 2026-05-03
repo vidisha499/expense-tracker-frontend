@@ -10,7 +10,7 @@ import { AlertController, MenuController, ModalController } from '@ionic/angular
   standalone: false,
 })
 export class AppComponent {
-
+  userName: string = 'User';
 
 
   constructor(private router: Router,
@@ -21,6 +21,8 @@ export class AppComponent {
   ) {
 
     this.initializeApp();
+    this.subscribeToProfile();
+    this.loadUserData();
   }
 
   // initializeApp() {
@@ -47,6 +49,28 @@ export class AppComponent {
     // Optional: explicitly set light if you want to be 100% sure
     localStorage.setItem('theme', 'light');
   }
+}
+
+loadUserData() {
+  const userId = localStorage.getItem('userId');
+  if (userId) {
+    this.profileService.getUserProfile(userId).subscribe({
+      next: (data: any) => {
+        if (data && data.first_name) {
+          this.userName = data.first_name;
+        }
+      },
+      error: (err) => console.error('Error loading user data:', err)
+    });
+  }
+}
+
+subscribeToProfile() {
+  this.profileService.profile$.subscribe(data => {
+    if (data && data.first_name) {
+      this.userName = data.first_name;
+    }
+  });
 }
 
 

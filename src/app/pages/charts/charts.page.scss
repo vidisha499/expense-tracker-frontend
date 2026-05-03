@@ -1,11 +1,56 @@
 
-/* Midnight Analysis Styles */
-.chart-container {
-  /* Using global glass-card styles instead */
+.midnight-header {
+  ion-toolbar {
+    --background: #0f172a;
+    --color: white;
+    --border-width: 0;
+  }
 }
 
-.canvas-wrapper {
-  position: relative;
-  height: 280px;
-  width: 100%;
+.chart-card-premium {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.category-item-row {
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:active {
+    background: rgba(255, 255, 255, 0.08) !important;
+    transform: translateX(5px);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.glow-orb {
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+canvas {
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4));
+}
+
+// Custom Helper for dynamic RGB background
+:host {
+  --ion-safe-area-top: 20px;
 }

@@ -1,29 +1,36 @@
-.menu-list {
-  padding: 12px;
-}
+.menu-item {
+  --background: transparent;
+  --padding-start: 25px;
+  --padding-top: 6px;    // More compact
+  --padding-bottom: 6px; // More compact
+  margin: 2px 0;         // Minimal margin
+  min-height: 44px;      // Ensuring tap target is still good
 
-.menu-card {
-  margin-bottom: 12px;
-  border-radius: 12px;
-  --background:  #7b5cff ;
- 
-  --color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  .icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 
-  ion-icon {
-    color: var(--ion-color-danger);
+    ion-icon {
+      font-size: 1.25rem;
+    }
+  }
+
+  ion-label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #94a3b8;
   }
 }
 
-
-.logout-container {
-  padding: 12px;
-  border-top: 1px solid #eee;
-}
-
-.menu-card.logout-item {
-  color: #ffffff;
-  --background: #f93357;
-
+.menu-footer {
+  background: rgba(0,0,0,0.2);
+  padding-bottom: calc(15px + var(--ion-safe-area-bottom));
 }
 

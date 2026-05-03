@@ -1,79 +1,128 @@
 
-<ion-header class="ion-no-border midnight-header">
-  <ion-toolbar>
+<ion-header class="ion-no-border midnight-header" style="height: calc(65px + var(--ion-safe-area-top));">
+  <ion-toolbar style="--padding-top: calc(10px + var(--ion-safe-area-top));">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/home" color="light" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Generate Reports</ion-title>
+    <ion-title style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;">Generate Reports</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary">
+        <ion-icon name="sparkles-outline" style="font-size: 1.2rem;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content style="--background: #020617;">
-  <div class="midnight-hero-bg" style="height: 200px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
-    <div class="glow-orb" style="width: 200px; height: 200px; top: -50px; right: -50px; opacity: 0.1; background: var(--primary-purple);"></div>
+  <!-- Background Decorations -->
+  <div class="midnight-hero-bg" style="height: 300px; background: linear-gradient(to bottom, #0f172a, #020617); position: absolute; width: 100%; top: 0; left: 0; z-index: 0; overflow: hidden;">
+    <div class="glow-orb" style="width: 250px; height: 250px; top: -80px; right: -80px; opacity: 0.15; background: var(--primary-purple);"></div>
+    <div class="glow-orb" style="width: 200px; height: 200px; bottom: 0; left: -50px; opacity: 0.1; background: #06b6d4;"></div>
   </div>
 
   <div class="ion-padding fade-up" style="position: relative; z-index: 1;">
     
-    <div class="glass-card" style="padding: 25px 15px; margin-bottom: 30px;">
+    <!-- Report Summary Card (Visual Only) -->
+    <div class="glass-card summary-glow" style="padding: 20px; margin-bottom: 25px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div style="width: 50px; height: 50px; border-radius: 15px; background: rgba(139, 92, 246, 0.1); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(139, 92, 246, 0.2);">
+          <ion-icon name="analytics-outline" style="font-size: 1.5rem; color: #a78bfa;"></ion-icon>
+        </div>
+        <div>
+          <h3 style="color: white; margin: 0; font-size: 1.1rem; font-weight: 800;">Report Details</h3>
+          <p style="color: #94a3b8; margin: 4px 0 0; font-size: 0.75rem; font-weight: 600;">Customize your financial insights</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="glass-card" style="padding: 20px 15px; margin-bottom: 30px; background: rgba(15, 23, 42, 0.6); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);">
       
-      <ion-item lines="none" class="cyber-input">
-        <ion-label position="stacked">Report Type</ion-label>
-        <ion-select [(ngModel)]="reportType" interface="popover">
-          <ion-select-option value="all">All Transactions</ion-select-option>
-          <ion-select-option value="expense">Expense Report</ion-select-option>
-          <ion-select-option value="income">Income Report</ion-select-option>
-          <ion-select-option value="category">By Category (Optional)</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item lines="none" class="cyber-input" *ngIf="reportType === 'category'">
-        <ion-label position="stacked">Category</ion-label>
-        <ion-select [(ngModel)]="selectedCategory" interface="popover">
-          <ion-select-option value="">All Categories</ion-select-option>
-          <ion-select-option *ngFor="let cat of categories" [value]="cat">
-            {{ cat }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <div style="margin-top: 10px">
-        <ion-item lines="none" id="start-date-trigger" button="true" class="cyber-input" detail="false" style="margin-bottom: 15px; --padding-bottom: 10px;">
-          <ion-label position="stacked">From</ion-label>
-          <ion-text style="color: white; font-weight: 700; display: block; margin-top: 4px;">
-            {{ startDate | date:'mediumDate' }}
-          </ion-text>
-          <ion-popover trigger="start-date-trigger" #startPopover>
-            <ng-template>
-              <ion-datetime presentation="date" [(ngModel)]="startDate" (ionChange)="startPopover.dismiss()" style="--background: #0f172a; --color: white;"></ion-datetime>
-            </ng-template>
-          </ion-popover>
+      <!-- Report Type -->
+      <div class="cyber-input-wrapper" style="margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-left: 5px;">
+          <ion-icon name="list-outline" style="color: #a78bfa; font-size: 1rem;"></ion-icon>
+          <label style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Report Type</label>
+        </div>
+        <ion-item lines="none" class="cyber-input" style="--background: rgba(255,255,255,0.03); --border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
+          <ion-select [(ngModel)]="reportType" interface="popover" style="width: 100%; --placeholder-color: #94a3b8; color: white; font-weight: 700;">
+            <ion-select-option value="all">All Transactions</ion-select-option>
+            <ion-select-option value="expense">Expense Report</ion-select-option>
+            <ion-select-option value="income">Income Report</ion-select-option>
+            <ion-select-option value="category">By Category (Optional)</ion-select-option>
+          </ion-select>
         </ion-item>
+      </div>
 
-        <ion-item lines="none" id="end-date-trigger" button="true" class="cyber-input" detail="false" style="--padding-bottom: 10px;">
-          <ion-label position="stacked">To</ion-label>
-          <ion-text style="color: white; font-weight: 700; display: block; margin-top: 4px;">
-            {{ endDate | date:'mediumDate' }}
-          </ion-text>
-          <ion-popover trigger="end-date-trigger" #endPopover>
-            <ng-template>
-              <ion-datetime presentation="date" [(ngModel)]="endDate" (ionChange)="endPopover.dismiss()" style="--background: #0f172a; --color: white;"></ion-datetime>
-            </ng-template>
-          </ion-popover>
+      <!-- Category (Conditional) -->
+      <div class="cyber-input-wrapper fade-in" style="margin-bottom: 20px;" *ngIf="reportType === 'category'">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-left: 5px;">
+          <ion-icon name="shapes-outline" style="color: #06b6d4; font-size: 1rem;"></ion-icon>
+          <label style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Select Category</label>
+        </div>
+        <ion-item lines="none" class="cyber-input" style="--background: rgba(255,255,255,0.03); --border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
+          <ion-select [(ngModel)]="selectedCategory" interface="popover" style="width: 100%; color: white; font-weight: 700;">
+            <ion-select-option value="">All Categories</ion-select-option>
+            <ion-select-option *ngFor="let cat of categories" [value]="cat">
+              {{ cat }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
+      </div>
+
+      <!-- Date Pickers -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="cyber-input-wrapper">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-left: 5px;">
+            <ion-icon name="calendar-outline" style="color: #10b981; font-size: 1rem;"></ion-icon>
+            <label style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">From</label>
+          </div>
+          <ion-item lines="none" id="start-date-trigger" button="true" class="cyber-input" detail="false" style="--background: rgba(255,255,255,0.03); --border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); height: 55px;">
+            <ion-text style="color: white; font-weight: 800; font-size: 0.9rem;">
+              {{ startDate | date:'dd MMM yyyy' }}
+            </ion-text>
+            <ion-popover trigger="start-date-trigger" #startPopover class="midnight-popover">
+              <ng-template>
+                <ion-datetime presentation="date" [(ngModel)]="startDate" (ionChange)="startPopover.dismiss()" style="--background: #0f172a; --color: white;"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </ion-item>
+        </div>
+
+        <div class="cyber-input-wrapper">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-left: 5px;">
+            <ion-icon name="calendar-outline" style="color: #f43f5e; font-size: 1rem;"></ion-icon>
+            <label style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">To</label>
+          </div>
+          <ion-item lines="none" id="end-date-trigger" button="true" class="cyber-input" detail="false" style="--background: rgba(255,255,255,0.03); --border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); height: 55px;">
+            <ion-text style="color: white; font-weight: 800; font-size: 0.9rem;">
+              {{ endDate | date:'dd MMM yyyy' }}
+            </ion-text>
+            <ion-popover trigger="end-date-trigger" #endPopover class="midnight-popover">
+              <ng-template>
+                <ion-datetime presentation="date" [(ngModel)]="endDate" (ionChange)="endPopover.dismiss()" style="--background: #0f172a; --color: white;"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </ion-item>
+        </div>
       </div>
     </div>
 
-    <div style="margin-top: 20px">
-      <ion-button expand="block" class="electric-btn" (click)="generatePDF()" style="margin-bottom: 15px;">
-        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+    <!-- Actions -->
+    <div class="actions-group" style="display: flex; flex-direction: column; gap: 15px;">
+      <ion-button expand="block" class="electric-btn" (click)="generatePDF()" style="--height: 58px; --border-radius: 20px; font-weight: 800; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">
+        <ion-icon name="cloud-download-outline" slot="start" style="font-size: 1.4rem;"></ion-icon>
         Export as PDF
       </ion-button>
       
-      <ion-button expand="block" fill="outline" (click)="generateExcel()" style="--color: #94a3b8; --border-color: rgba(148, 163, 184, 0.2); font-weight: 700; height: 50px; --border-radius: 18px;">
-        <ion-icon name="grid-outline" slot="start"></ion-icon>
+      <ion-button expand="block" fill="clear" (click)="generateExcel()" class="excel-glow-btn" style="--color: #94a3b8; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; height: 55px; border-radius: 20px; border: 1px solid rgba(148, 163, 184, 0.15); background: rgba(255,255,255,0.02);">
+        <ion-icon name="grid-outline" slot="start" style="font-size: 1.2rem;"></ion-icon>
         Export as Excel
       </ion-button>
+    </div>
+
+    <!-- Help Text -->
+    <div style="text-align: center; margin-top: 40px; opacity: 0.4;">
+      <p style="color: #94a3b8; font-size: 0.7rem; font-weight: 600; letter-spacing: 1px;">All reports are generated securely from your device</p>
     </div>
   </div>
 </ion-content>

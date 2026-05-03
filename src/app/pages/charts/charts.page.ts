@@ -105,6 +105,18 @@ export class ChartsPage implements AfterViewInit {
     this.router.navigate(['/home/reports']);
   }
 
+  get totalAmount(): number {
+    return this.chartValues.reduce((sum, val) => sum + val, 0);
+  }
+
+  getRGB(hex: string): string {
+    if (!hex || hex.length < 7) return '139, 92, 246';
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `${r}, ${g}, ${b}`;
+  }
+
   getIcon(label: string): string {
     const icons: { [key: string]: string } = {
       'Food & Dining': 'restaurant',
