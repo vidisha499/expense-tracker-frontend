@@ -81,6 +81,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { ExpenseService } from 'src/app/services/expense-service';
 
 @Component({
   selector: 'app-login',
@@ -101,7 +102,8 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private expenseService: ExpenseService
   ) {}
 
   ngOnInit() {
@@ -122,10 +124,9 @@ export class LoginPage implements OnInit {
 
     console.log('🚀 Attempting Login with:', email);
 
-    this.http
-      .post<any>(`${environment.apiUrl}/login`, { email, password })
+    this.expenseService.login(email, password)
       .subscribe({
-        next: (res) => {
+        next: (res: any) => {
           console.log('✅ Login Response:', res);
           localStorage.setItem('userId', res.user.id);
           localStorage.setItem('email', res.user.email);
@@ -133,12 +134,13 @@ export class LoginPage implements OnInit {
         },
         error: (err) => {
           console.error('❌ Login Error Details:', err);
+          const status = err.status || 'Unknown';
           if (err.status === 0) {
-            this.loginError = 'Cannot connect to server. Check your internet or API URL.';
+            this.loginError = `Cannot connect to server (Code: ${status}). Check your internet.`;
           } else if (err.status === 401) {
-            this.loginError = 'Invalid email or password. Please check your spelling.';
+            this.loginError = 'Invalid email or password.';
           } else {
-            this.loginError = err.error?.message || 'Something went wrong. Try again.';
+            this.loginError = `Server Error (Code: ${status}): ${err.error?.message || 'Something went wrong'}`;
           }
           alert(this.loginError);
         },
